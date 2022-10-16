@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import { PROP_TYPE_IMAGES } from "../constants/propTypes";
 import Stack from "@mui/material/Stack";
 import Image from "next/image";
+import { PROP_TYPE_IMAGES } from "../constants/propTypes";
 import { findBestImage } from "../utils/ImageHelper";
 
 const WIDTH = 75;
@@ -16,30 +16,28 @@ const msToMinutes = (ms) => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
-const TrackItem = ({ track }) => {
-    return (
-        <Stack flexDirection="row" gap={3}>
-            <Box sx={{ minWidth: "75px" }}>
-                <Image
-                    src={findBestImage(track.album.images, HEIGHT, WIDTH)}
-                    width={WIDTH}
-                    height={HEIGHT}
-                />
+const TrackItem = ({ track }) => (
+    <Stack flexDirection="row" gap={3}>
+        <Box sx={{ minWidth: "75px" }}>
+            <Image
+                src={findBestImage(track.album.images, HEIGHT, WIDTH)}
+                width={WIDTH}
+                height={HEIGHT}
+            />
+        </Box>
+        <Stack sx={{ flexGrow: 1 }}>
+            <Box>
+                {track.name}
             </Box>
-            <Stack sx={{ flexGrow: 1 }}>
-                <Box>
-                    {track.name}
-                </Box>
-                <Box sx={{ color: "grey.500" }}>
-                    {track.artists.map((item) => item.name).join(" ")}
-                    &nbsp;-&nbsp;
-                    {track.album.name}
-                </Box>
-            </Stack>
-            <Box>{msToMinutes(track.duration_ms)}</Box>
+            <Box sx={{ color: "grey.500" }}>
+                {track.artists.map((item) => item.name).join(" ")}
+                &nbsp;-&nbsp;
+                {track.album.name}
+            </Box>
         </Stack>
-    );
-};
+        <Box>{msToMinutes(track.duration_ms)}</Box>
+    </Stack>
+);
 
 TrackItem.propTypes = {
     track: PropTypes.shape({
