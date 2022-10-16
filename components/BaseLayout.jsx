@@ -15,16 +15,19 @@ const NavBarLeft = styled(Stack)({
     justifyContent: "space-between",
     height: "100%",
     width: 100,
+    left: 0,
+    top: 0,
     padding: "30px 0",
     background: "black",
 });
 
-const NavBarBottom = styled(Stack)({
+const NavBarBottom = styled(Box)({
+    display: "grid",
+    gridTemplateColumns: "repeat(5, 20%)",
     position: "fixed",
-    flexDirection: "row",
-    justifyContent: "space-between",
     height: 70,
     width: "100%",
+    left: 0,
     bottom: 0,
     background: "black",
 });
@@ -62,21 +65,20 @@ const BaseLayout = ({ children }) => {
     const currentRoute = router.route;
 
     return (
-        <Stack
-            flexDirection="row"
-            sx={{ minHeight: "100%" }}
-        >
+        <>
             <Box sx={{
                 flexGrow: 1,
-                backgroundColor: "grey.900",
+                minHeight: "100%",
                 padding: { xs: "10px", md: "40px" },
-                marginLeft: { xs: 0, md: "100px" },
+                paddingLeft: { xs: "10px", md: "140px" },
             }}
             >
                 {children}
             </Box>
             <NavBarLeft sx={{ display: { xs: "none", md: "flex" } }}>
-                <Box sx={{ textAlign: "center", fontSize: "50px", color: "green" }}><ImSpotify /></Box>
+                <Box sx={{ textAlign: "center", fontSize: "50px" }}>
+                    <ImSpotify color="green" />
+                </Box>
                 <Box>
                     {navLinks.map((item) => (
                         <NavLink
@@ -90,7 +92,7 @@ const BaseLayout = ({ children }) => {
                 </Box>
                 <Box />
             </NavBarLeft>
-            <NavBarBottom sx={{ display: { xs: "flex", md: "none" } }}>
+            <NavBarBottom sx={{ display: { xs: "grid", md: "none" } }}>
                 {navLinks.map((item) => (
                     <NavLink
                         key={item.href}
@@ -101,7 +103,7 @@ const BaseLayout = ({ children }) => {
                     />
                 ))}
             </NavBarBottom>
-        </Stack>
+        </>
     );
 };
 

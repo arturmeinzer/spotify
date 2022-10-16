@@ -1,5 +1,4 @@
 import React, {
-    useCallback,
     useEffect,
     useRef,
     useState,
@@ -13,6 +12,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import BaseLayout from "../../components/BaseLayout";
 import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
+import { findBestImage } from "../../utils/ImageHelper";
 
 const GreenBox = styled(Box)({
     color: "green",
@@ -33,16 +33,6 @@ const ArtistDetail = () => {
     const [artist, setArtist] = useState(null);
     const router = useRouter();
     const { id } = router.query;
-
-    const findBestImage = useCallback((imagesArray) => {
-        let bestImage = imagesArray[0];
-        imagesArray.forEach((image) => {
-            if (image.height >= HEIGHT && image.width >= WIDTH) {
-                bestImage = image;
-            }
-        });
-        return bestImage.url;
-    }, []);
 
     useEffect(() => {
         if (shouldFetch.current && typeof id !== "undefined") {
@@ -70,7 +60,7 @@ const ArtistDetail = () => {
                     <Typography variant="h2" as="h1" fontWeight="bold">{artist.name}</Typography>
                     <Box>
                         <Image
-                            src={findBestImage(artist.images)}
+                            src={findBestImage(artist.images, HEIGHT, WIDTH)}
                             width={WIDTH}
                             height={HEIGHT}
                             style={{ borderRadius: "50%" }}

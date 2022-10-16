@@ -79,6 +79,10 @@ class SpotifyDataFetcher {
         const headers = await this.getHeaders();
         return axios.get(`https://api.spotify.com/v1/artists/${artistId}`, headers);
     }
+
+    getRecent = async () => {
+        const headers = await this.getHeaders();
+    }
 }
 
 export default SpotifyDataFetcher;
