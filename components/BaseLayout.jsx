@@ -1,5 +1,4 @@
 import React from "react";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import { CgProfile } from "react-icons/cg";
@@ -7,30 +6,9 @@ import { ImMusic, ImSpotify } from "react-icons/im";
 import { GiBackwardTime, GiGuitarHead } from "react-icons/gi";
 import { TbPlaylist } from "react-icons/tb";
 import { useRouter } from "next/router";
-import { styled } from "@mui/material/styles";
 import NavLink from "./NavLink";
-
-const NavBarLeft = styled(Stack)({
-    position: "fixed",
-    justifyContent: "space-between",
-    height: "100%",
-    width: 100,
-    left: 0,
-    top: 0,
-    padding: "30px 0",
-    background: "black",
-});
-
-const NavBarBottom = styled(Box)({
-    display: "grid",
-    gridTemplateColumns: "repeat(5, 20%)",
-    position: "fixed",
-    height: 70,
-    width: "100%",
-    left: 0,
-    bottom: 0,
-    background: "black",
-});
+import NavBarLeft from "./UI/NavBarLeft";
+import NavBarBottom from "./UI/NavBarBottom";
 
 const navLinks = [
     {
