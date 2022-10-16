@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
-import CenterContainer from "../components/CenterContainer";
+import CenterContainer from "../components/UI/CenterContainer";
 
 const Four0Four = () => {
     const router = useRouter();

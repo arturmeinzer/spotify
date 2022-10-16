@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
-import CenterContainer from "../components/CenterContainer";
+import CenterContainer from "../components/UI/CenterContainer";
 
 const Home = () => {
     const [isAuth, setIsAuth] = useState(false);
