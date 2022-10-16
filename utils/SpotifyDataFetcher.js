@@ -80,8 +80,9 @@ class SpotifyDataFetcher {
         return axios.get(`https://api.spotify.com/v1/artists/${artistId}`, headers);
     }
 
-    getRecent = async () => {
+    getRecentlyPlayed = async () => {
         const headers = await this.getHeaders();
+        return axios.get("https://api.spotify.com/v1/me/player/recently-played", headers);
     }
 }
 

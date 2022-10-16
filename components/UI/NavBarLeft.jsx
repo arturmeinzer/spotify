@@ -15,11 +15,11 @@ const NavBarLeft = styled(Box)({
     background: "black",
     "& a > div": {
         padding: "15px",
-        borderLeft: "7px solid transparent",
+        borderRight: "7px solid transparent",
         color: "#aaa",
     },
     "& a:hover > div, & a > div.active": {
-        borderLeft: "7px solid green",
+        borderRight: "7px solid green",
         backgroundColor: grey[900],
         color: "white",
     },
