@@ -2,7 +2,8 @@ import "../styles/globals.css";
 
 import React from "react";
 import PropTypes from "prop-types";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const theme = createTheme({
     palette: {
@@ -12,6 +13,7 @@ const theme = createTheme({
 
 const MyApp = ({ Component, pageProps }) => (
     <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Component {...pageProps} />
     </ThemeProvider>
 );
