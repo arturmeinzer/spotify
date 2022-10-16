@@ -1,10 +1,10 @@
 import axios from "axios";
 import { deleteCookie } from "cookies-next";
+import { SPOTIFY_STATE_KEY } from "../../constants/spotify";
 
-const stateKey = "spotify_auth_state";
 const handler = async (req, res) => {
     const { code, state } = req.query;
-    const storedState = req.cookies ? req.cookies[stateKey] : null;
+    const storedState = req.cookies ? req.cookies[SPOTIFY_STATE_KEY] : null;
 
     if (state === null || state !== storedState) {
         const query = new URLSearchParams({ error: "state_mismatch" }).toString();
@@ -12,7 +12,7 @@ const handler = async (req, res) => {
         return;
     }
 
-    deleteCookie(stateKey, { req, res });
+    deleteCookie(SPOTIFY_STATE_KEY, { req, res });
     const basicAuth = Buffer.from(`${process.env.NEXT_PUBLIC_CLIENT_ID}:${process.env.NEXT_PUBLIC_CLIENT_SECRET}`).toString("base64");
     const options = {
         method: "post",

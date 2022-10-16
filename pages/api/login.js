@@ -1,6 +1,6 @@
 import { setCookie } from "cookies-next";
+import { SPOTIFY_STATE_KEY } from "../../constants/spotify";
 
-const stateKey = "spotify_auth_state";
 const generateRandomString = (length) => {
     let text = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -12,7 +12,7 @@ const generateRandomString = (length) => {
 
 const handler = (req, res) => {
     const state = generateRandomString(16);
-    setCookie(stateKey, state, { req, res });
+    setCookie(SPOTIFY_STATE_KEY, state, { req, res });
 
     const scope = "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public";
 

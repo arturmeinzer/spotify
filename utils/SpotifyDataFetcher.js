@@ -12,7 +12,7 @@ class SpotifyDataFetcher {
     }
 
     setTokenTimestamp = () => {
-        window.localStorage.setItem(SPOTIFY_TOKEN_TIMESTAMP, Date.now());
+        window.localStorage.setItem(SPOTIFY_TOKEN_TIMESTAMP, Date.now().toString());
     }
 
     setLocalAccessToken = (accessToken) => {
@@ -44,7 +44,7 @@ class SpotifyDataFetcher {
     }
 
     getAccessToken = async () => {
-        const timeRemaining = Date.now() - this.getTokenTimestamp();
+        const timeRemaining = Date.now() - parseInt(this.getTokenTimestamp(), 10);
 
         if (timeRemaining > SPOTIFY_TOKEN_EXPIRATION_TIME) {
             // eslint-disable-next-line no-console
@@ -58,24 +58,26 @@ class SpotifyDataFetcher {
     getHeaders = async () => {
         const accessToken = await this.getAccessToken();
         return {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
         };
     }
 
     getUser = async () => {
         const headers = await this.getHeaders();
-        return axios.get("https://api.spotify.com/v1/me", { headers });
+        return axios.get("https://api.spotify.com/v1/me", headers);
     }
 
     getTopArtists = async (timeRange) => {
         const headers = await this.getHeaders();
-        return axios.get(`https://api.spotify.com/v1/me/top/artists?limit=50&time_range=${timeRange}`, { headers });
+        return axios.get(`https://api.spotify.com/v1/me/top/artists?limit=50&time_range=${timeRange}`, headers);
     }
 
     getArtist = async (artistId) => {
         const headers = await this.getHeaders();
-        return axios.get(`https://api.spotify.com/v1/artists/${artistId}`, { headers });
+        return axios.get(`https://api.spotify.com/v1/artists/${artistId}`, headers);
     }
 }
 
