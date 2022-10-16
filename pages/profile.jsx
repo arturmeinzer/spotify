@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import BaseLayout from "../components/BaseLayout";
+import withAuth from "../hoc/withAuth";
 
 const Profile = () => {
     const shouldFetch = useRef(true);
@@ -23,4 +24,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default withAuth(Profile);

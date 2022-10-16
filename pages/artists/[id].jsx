@@ -13,6 +13,7 @@ import { styled } from "@mui/material/styles";
 import BaseLayout from "../../components/BaseLayout";
 import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
 import { findBestImage } from "../../utils/ImageHelper";
+import withAuth from "../../hoc/withAuth";
 
 const GreenBox = styled(Box)({
     color: "green",
@@ -92,4 +93,4 @@ const ArtistDetail = () => {
     );
 };
 
-export default ArtistDetail;
+export default withAuth(ArtistDetail);

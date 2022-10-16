@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import { useRouter } from "next/router";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
+import CenterContainer from "../components/CenterContainer";
 
 const Home = () => {
     const [isAuth, setIsAuth] = useState(false);
@@ -33,12 +33,7 @@ const Home = () => {
     }, [isAuth, router]);
 
     return (
-        <Stack
-            justifyContent="center"
-            alignItems="center"
-            gap="20px"
-            sx={{ height: "100%", fontSize: "25px", fontWeight: "bold" }}
-        >
+        <CenterContainer>
             <Box>Spotify Profile</Box>
             <Button
                 variant="contained"
@@ -48,7 +43,7 @@ const Home = () => {
             >
                 Log in to Spotify
             </Button>
-        </Stack>
+        </CenterContainer>
     );
 };
 

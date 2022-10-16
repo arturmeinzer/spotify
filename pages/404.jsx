@@ -1,11 +1,25 @@
 import React from "react";
-import Container from "@mui/material/Container";
-import BaseLayout from "../components/BaseLayout";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { useRouter } from "next/router";
+import CenterContainer from "../components/CenterContainer";
 
-const Four0Four = () => (
-    <BaseLayout>
-        <Container>404 Page Not Found</Container>
-    </BaseLayout>
-);
+const Four0Four = () => {
+    const router = useRouter();
+
+    return (
+        <CenterContainer>
+            <Box>404 Page Not Found</Box>
+            <Button
+                variant="contained"
+                color="success"
+                sx={{ borderRadius: "50px", padding: "10px 30px" }}
+                onClick={() => router.push("/")}
+            >
+                Go Back Home
+            </Button>
+        </CenterContainer>
+    );
+};
 
 export default Four0Four;

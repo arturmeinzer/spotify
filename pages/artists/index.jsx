@@ -11,6 +11,7 @@ import {
     TIME_RANGE_MEDIUM_TERM,
     TIME_RANGE_SHORT_TERM,
 } from "../../constants/timeRange";
+import withAuth from "../../hoc/withAuth";
 
 export const Artists = () => {
     const shouldFetch = useRef(true);
@@ -57,4 +58,4 @@ export const Artists = () => {
     );
 };
 
-export default Artists;
+export default withAuth(Artists);
