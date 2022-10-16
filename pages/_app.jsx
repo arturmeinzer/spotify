@@ -1,7 +1,24 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+import React from "react";
+import PropTypes from "prop-types";
+import { createTheme, ThemeProvider } from "@mui/material";
 
-export default MyApp
+const theme = createTheme({
+    palette: {
+        mode: "dark",
+    },
+});
+
+const MyApp = ({ Component, pageProps }) => (
+    <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+    </ThemeProvider>
+);
+
+MyApp.propTypes = {
+    Component: PropTypes.func.isRequired,
+    pageProps: PropTypes.shape({}).isRequired,
+};
+
+export default MyApp;
