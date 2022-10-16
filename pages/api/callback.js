@@ -13,13 +13,13 @@ const handler = async (req, res) => {
     }
 
     deleteCookie(SPOTIFY_STATE_KEY, { req, res });
-    const basicAuth = Buffer.from(`${process.env.NEXT_PUBLIC_CLIENT_ID}:${process.env.NEXT_PUBLIC_CLIENT_SECRET}`).toString("base64");
+    const basicAuth = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString("base64");
     const options = {
         method: "post",
         url: "https://accounts.spotify.com/api/token",
         data: new URLSearchParams({
             code,
-            redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI,
+            redirect_uri: process.env.REDIRECT_URI,
             grant_type: "authorization_code",
         }),
         headers: {

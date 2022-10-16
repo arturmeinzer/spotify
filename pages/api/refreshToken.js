@@ -3,7 +3,7 @@ import axios from "axios";
 const handler = async (req, res) => {
     const { refreshToken } = req.query;
 
-    const basicAuth = Buffer.from(`${process.env.NEXT_PUBLIC_CLIENT_ID}:${process.env.NEXT_PUBLIC_CLIENT_SECRET}`).toString("base64");
+    const basicAuth = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString("base64");
     const options = {
         method: "post",
         url: "https://accounts.spotify.com/api/token",

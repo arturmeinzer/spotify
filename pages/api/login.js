@@ -18,9 +18,9 @@ const handler = (req, res) => {
 
     const query = new URLSearchParams({
         response_type: "code",
-        client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+        client_id: process.env.CLIENT_ID,
         scope,
-        redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI,
+        redirect_uri: process.env.REDIRECT_URI,
         state,
     }).toString();
 
