@@ -4,6 +4,7 @@ import BaseLayout from "../components/BaseLayout";
 import Header from "../components/Header";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import TrackItem from "../components/TrackItem";
+import withAuth from "../hoc/withAuth";
 
 const Recent = () => {
     const shouldFetch = useRef(true);
@@ -14,8 +15,6 @@ const Recent = () => {
             shouldFetch.current = false;
             const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getRecentlyPlayed().then((response) => {
-                // eslint-disable-next-line no-console
-                console.log(response.data);
                 const { items } = response.data;
                 setRecentItems(items);
                 shouldFetch.current = true;
@@ -24,7 +23,7 @@ const Recent = () => {
     }, []);
 
     return (
-        <BaseLayout>
+        <BaseLayout loading={recentItems.length === 0}>
             <Header title="Recently Played Tracks" />
             <Stack gap={3}>
                 {recentItems.map((item) => <TrackItem key={item.played_at} track={item.track} />)}
@@ -33,4 +32,4 @@ const Recent = () => {
     );
 };
 
-export default Recent;
+export default withAuth(Recent);

@@ -6,6 +6,7 @@ import TrackItem from "../../components/TrackItem";
 import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
 import TimeRangeToggle from "../../components/TimeRangeToggle";
+import withAuth from "../../hoc/withAuth";
 
 const Tracks = () => {
     const shouldFetch = useRef(true);
@@ -17,8 +18,6 @@ const Tracks = () => {
             shouldFetch.current = false;
             const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getTopTracks(timeRange).then((response) => {
-                // eslint-disable-next-line no-console
-                console.log(response.data);
                 const { items } = response.data;
                 setTrackItems(items);
                 shouldFetch.current = true;
@@ -27,7 +26,7 @@ const Tracks = () => {
     }, [timeRange]);
 
     return (
-        <BaseLayout>
+        <BaseLayout loading={trackItems.length === 0}>
             <Header title="Top Tracks">
                 <TimeRangeToggle onChange={setTimeRange} timeRange={timeRange} />
             </Header>
@@ -38,4 +37,4 @@ const Tracks = () => {
     );
 };
 
-export default Tracks;
+export default withAuth(Tracks);

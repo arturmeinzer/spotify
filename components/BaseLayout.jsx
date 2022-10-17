@@ -9,6 +9,7 @@ import { FaUserCircle } from "react-icons/fa";
 import NavLink from "./NavLink";
 import NavBarLeft from "./UI/NavBarLeft";
 import NavBarBottom from "./UI/NavBarBottom";
+import Loader from "./Loader";
 
 const navLinks = [
     {
@@ -38,7 +39,7 @@ const navLinks = [
     },
 ];
 
-const BaseLayout = ({ children }) => {
+const BaseLayout = ({ children, loading }) => {
     const router = useRouter();
     const currentRoute = router.route;
 
@@ -52,11 +53,15 @@ const BaseLayout = ({ children }) => {
         />
     ));
 
+    if (loading) {
+        return <Loader />;
+    }
+
     return (
         <>
             <Box sx={{
-                flexGrow: 1,
                 minHeight: "100%",
+                height: "100%",
                 padding: { xs: "10px", md: "40px" },
                 paddingLeft: { xs: "10px", md: "140px" },
             }}
@@ -82,7 +87,12 @@ const BaseLayout = ({ children }) => {
 };
 
 BaseLayout.propTypes = {
+    loading: PropTypes.bool,
     children: PropTypes.node.isRequired,
+};
+
+BaseLayout.defaultProps = {
+    loading: false,
 };
 
 export default BaseLayout;

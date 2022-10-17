@@ -12,6 +12,7 @@ import Artist from "../components/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
 import TrackItem from "../components/TrackItem";
 import AppLink from "../components/AppLink";
+import Loader from "../components/Loader";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
@@ -43,7 +44,7 @@ const Profile = () => {
     if (profileData === null) {
         return (
             <BaseLayout>
-                Loading...
+                <Loader />
             </BaseLayout>
         );
     }

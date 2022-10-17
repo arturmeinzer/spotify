@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
+import Loader from "../components/Loader";
 
 export default (WrappedComponent) => (props) => {
     const shouldCheck = useRef(true);
@@ -26,5 +27,5 @@ export default (WrappedComponent) => (props) => {
         return <WrappedComponent {...props} />;
     }
 
-    return <p>Loading...</p>;
+    return <Loader />;
 };

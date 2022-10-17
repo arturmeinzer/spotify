@@ -18,8 +18,6 @@ export const Artists = () => {
             shouldFetch.current = false;
             const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getTopArtists(timeRange).then((response) => {
-                // eslint-disable-next-line no-console
-                console.log(response.data);
                 const { items } = response.data;
                 setArtistItems(items);
                 shouldFetch.current = true;
@@ -28,7 +26,7 @@ export const Artists = () => {
     }, [timeRange]);
 
     return (
-        <BaseLayout>
+        <BaseLayout loading={artistItems.length === 0}>
             <Header title="Top Artists">
                 <TimeRangeToggle onChange={setTimeRange} timeRange={timeRange} />
             </Header>

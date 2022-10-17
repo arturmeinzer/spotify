@@ -103,7 +103,11 @@ class SpotifyDataFetcher {
             this.getTopArtists(TIME_RANGE_LONG_TERM, 10),
             this.getTopTracks(TIME_RANGE_LONG_TERM, 10),
         ]).then(
-            axios.spread((user, topArtists, topTracks) => ({
+            axios.spread((
+                user,
+                topArtists,
+                topTracks,
+            ) => ({
                 user: user.data,
                 topArtists: topArtists.data,
                 topTracks: topTracks.data,

@@ -1,6 +1,7 @@
 import React from "react";
 import BaseLayout from "../../components/BaseLayout";
 import Header from "../../components/Header";
+import withAuth from "../../hoc/withAuth";
 
 const Playlists = () => (
     <BaseLayout>
@@ -8,4 +9,4 @@ const Playlists = () => (
     </BaseLayout>
 );
 
-export default Playlists;
+export default withAuth(Playlists);

@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Image from "next/image";
 import { PROP_TYPE_TRACK } from "../constants/propTypes";
-import { findBestImage, getHeight, getWidth } from "../utils/ImageHelper";
+import { getHeight, getWidth } from "../utils/ImageHelper";
 import { SIZE_SMALL } from "../constants/imageSizes";
+import Image from "./Image";
 
 const msToMinutes = (ms) => {
     const totalSeconds = ms / 1000;
@@ -22,9 +22,8 @@ const TrackItem = ({ track, size }) => (
     >
         <Box sx={{ minWidth: getWidth(size) }}>
             <Image
-                src={findBestImage(track.album.images, SIZE_SMALL)}
-                width={getWidth(SIZE_SMALL)}
-                height={getHeight(SIZE_SMALL)}
+                imagesArray={track.album.images}
+                size={SIZE_SMALL}
             />
         </Box>
         <Stack sx={{ flexGrow: 1, overflow: "hidden" }}>

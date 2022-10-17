@@ -1,12 +1,12 @@
 import React from "react";
-import Image from "next/image";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import AppLink from "./AppLink";
 import { PROP_TYPE_ARTIST } from "../constants/propTypes";
-import { findBestImage, getHeight, getWidth } from "../utils/ImageHelper";
+import { getWidth } from "../utils/ImageHelper";
 import { SIZE_MEDIUM } from "../constants/imageSizes";
+import Image from "./Image";
 
 const Artist = ({ artist, size, direction }) => (
     <AppLink href="/artists/[id]" as={`/artists/${artist.id}`}>
@@ -17,10 +17,9 @@ const Artist = ({ artist, size, direction }) => (
             sx={{ textAlign: "center", width: direction === "row" ? "auto" : getWidth(size) }}
         >
             <Image
-                src={findBestImage(artist.images, size)}
-                width={getWidth(size)}
-                height={getHeight(size)}
-                style={{ borderRadius: "50%" }}
+                imagesArray={artist.images}
+                size={size}
+                round
             />
             <Box>{artist.name}</Box>
         </Stack>
