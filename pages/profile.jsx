@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { useRouter } from "next/router";
+import Box from "@mui/material/Box";
+import { FaUserCircle } from "react-icons/fa";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import BaseLayout from "../components/BaseLayout";
 import withAuth from "../hoc/withAuth";
-import Header from "../components/Header";
 import Artist from "../components/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
 import TrackItem from "../components/TrackItem";
@@ -14,6 +16,7 @@ import AppLink from "../components/AppLink";
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
     const shouldFetch = useRef(true);
+    const router = useRouter();
 
     useEffect(() => {
         if (shouldFetch.current) {
@@ -32,6 +35,11 @@ const Profile = () => {
         }
     }, []);
 
+    const onLogout = () => {
+        SpotifyDataFetcher.logout();
+        router.push("/");
+    };
+
     if (profileData === null) {
         return (
             <BaseLayout>
@@ -42,16 +50,18 @@ const Profile = () => {
 
     return (
         <BaseLayout>
-            <Header title={profileData.user.display_name} />
-            <AppLink href="/logout">
-                <Button>Logout</Button>
-            </AppLink>
+            <Stack gap={2} alignItems="center" sx={{ textAlign: "center", marginBottom: "50px" }}>
+                <FaUserCircle fontSize={150} />
+                <Box fontSize={50} fontWeight="bold">{profileData.user.display_name}</Box>
+                <Button onClick={onLogout} color="warning">Logout</Button>
+            </Stack>
+
             <Stack gap="20px" sx={{ flexDirection: { xs: "column", md: "row" } }}>
                 <Stack gap={3} flex="50%">
                     <Stack direction="row" justifyContent="space-between">
-                        <Typography variant="h6" as="h2">Top Artists of All Time</Typography>
+                        <Typography variant="h6" as="h2" fontWeight="bold">Top Artists of All Time</Typography>
                         <AppLink href="/artists">
-                            <Button variant="outlined" color="success">See More</Button>
+                            <Button color="success">See More</Button>
                         </AppLink>
                     </Stack>
                     {profileData.topArtists.items.map(
@@ -60,9 +70,9 @@ const Profile = () => {
                 </Stack>
                 <Stack gap={3} flex="50%">
                     <Stack direction="row" justifyContent="space-between">
-                        <Typography variant="h6" as="h2">Top Tracks of All Time</Typography>
+                        <Typography variant="h6" as="h2" fontWeight="bold">Top Tracks of All Time</Typography>
                         <AppLink href="/tracks">
-                            <Button variant="outlined" color="success">See More</Button>
+                            <Button color="success">See More</Button>
                         </AppLink>
                     </Stack>
                     {profileData.topTracks.items.map(

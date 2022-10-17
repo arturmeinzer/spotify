@@ -14,7 +14,7 @@ const Header = ({ title, as, children }) => (
     }}
     >
         <Typography variant="h5" as={as} sx={{ fontWeight: "bold" }}>{title}</Typography>
-        <Box>{children}</Box>
+        {children && <Box>{children}</Box>}
     </Box>
 );
 

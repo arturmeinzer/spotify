@@ -56,6 +56,12 @@ class SpotifyDataFetcher {
         return this.getLocalAccessToken();
     }
 
+    static logout = () => {
+        window.localStorage.removeItem(SPOTIFY_TOKEN_TIMESTAMP);
+        window.localStorage.removeItem(SPOTIFY_REFRESH_TOKEN);
+        window.localStorage.removeItem(SPOTIFY_ACCESS_TOKEN);
+    }
+
     getHeaders = async () => {
         const accessToken = await this.getAccessToken();
         return {

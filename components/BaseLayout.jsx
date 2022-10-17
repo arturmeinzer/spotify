@@ -1,11 +1,11 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
-import { CgProfile } from "react-icons/cg";
 import { ImMusic, ImSpotify } from "react-icons/im";
 import { GiBackwardTime, GiGuitarHead } from "react-icons/gi";
 import { TbPlaylist } from "react-icons/tb";
 import { useRouter } from "next/router";
+import { FaUserCircle } from "react-icons/fa";
 import NavLink from "./NavLink";
 import NavBarLeft from "./UI/NavBarLeft";
 import NavBarBottom from "./UI/NavBarBottom";
@@ -14,7 +14,7 @@ const navLinks = [
     {
         href: "/profile",
         caption: "Profile",
-        icon: <CgProfile />,
+        icon: <FaUserCircle />,
     },
     {
         href: "/artists",
