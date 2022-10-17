@@ -42,6 +42,16 @@ const BaseLayout = ({ children }) => {
     const router = useRouter();
     const currentRoute = router.route;
 
+    const renderNavLinks = () => navLinks.map((item) => (
+        <NavLink
+            key={item.href}
+            caption={item.caption}
+            href={item.href}
+            icon={item.icon}
+            active={currentRoute === item.href}
+        />
+    ));
+
     return (
         <>
             <Box sx={{
@@ -58,28 +68,12 @@ const BaseLayout = ({ children }) => {
                     <ImSpotify color="green" />
                 </Box>
                 <Box>
-                    {navLinks.map((item) => (
-                        <NavLink
-                            key={item.href}
-                            caption={item.caption}
-                            href={item.href}
-                            icon={item.icon}
-                            active={currentRoute === item.href}
-                        />
-                    ))}
+                    {renderNavLinks()}
                 </Box>
                 <Box />
             </NavBarLeft>
             <NavBarBottom sx={{ display: { xs: "grid", md: "none" } }}>
-                {navLinks.map((item) => (
-                    <NavLink
-                        key={item.href}
-                        caption={item.caption}
-                        href={item.href}
-                        icon={item.icon}
-                        active={currentRoute === item.href}
-                    />
-                ))}
+                {renderNavLinks()}
             </NavBarBottom>
         </>
     );

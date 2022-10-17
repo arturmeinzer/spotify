@@ -15,16 +15,16 @@ import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
 import { findBestImage } from "../../utils/ImageHelper";
 import withAuth from "../../hoc/withAuth";
 
-const GreenBox = styled(Box)({
-    color: "green",
+const GreenBox = styled(Box)(({ theme }) => ({
+    color: theme.palette.text.primary,
     fontWeight: "bold",
-});
+}));
 
-const Header = styled(Box)({
-    color: "#aaa",
+const Header = styled(Box)(({ theme }) => ({
+    color: theme.palette.text.secondary,
     fontSize: "12px",
     marginBottom: "5px",
-});
+}));
 
 const HEIGHT = 300;
 const WIDTH = 300;
@@ -58,7 +58,7 @@ const ArtistDetail = () => {
         <BaseLayout>
             <Container>
                 <Stack justifyContent="center" alignItems="center" gap={5}>
-                    <Typography variant="h2" as="h1" fontWeight="bold">{artist.name}</Typography>
+                    <Typography variant="h2" as="h1" fontWeight="bold" textAlign="center">{artist.name}</Typography>
                     <Box>
                         <Image
                             src={findBestImage(artist.images, HEIGHT, WIDTH)}
@@ -71,12 +71,12 @@ const ArtistDetail = () => {
                         flexDirection="row"
                         justifyContent="space-between"
                         textAlign="center"
-                        width="500px"
+                        maxWidth="500px"
                         sx={{ textTransform: "uppercase" }}
                     >
                         <Box>
                             <Header>Followers</Header>
-                            <GreenBox>{artist.followers.total}</GreenBox>
+                            <GreenBox>{artist.followers.total.toLocaleString()}</GreenBox>
                         </Box>
                         <Box>
                             <Header>Genres</Header>

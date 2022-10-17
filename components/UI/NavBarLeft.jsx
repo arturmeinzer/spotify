@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { grey } from "@mui/material/colors";
 
-const NavBarLeft = styled(Box)({
+const NavBarLeft = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     position: "fixed",
@@ -16,13 +16,13 @@ const NavBarLeft = styled(Box)({
     "& a > div": {
         padding: "15px",
         borderRight: "7px solid transparent",
-        color: "#aaa",
+        color: theme.palette.text.secondary,
     },
     "& a:hover > div, & a > div.active": {
         borderRight: "7px solid green",
         backgroundColor: grey[900],
-        color: "white",
+        color: theme.palette.text.primary,
     },
-});
+}));
 
 export default NavBarLeft;
