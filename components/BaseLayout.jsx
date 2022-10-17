@@ -63,6 +63,7 @@ const BaseLayout = ({ children }) => {
             >
                 {children}
             </Box>
+            <Box sx={{ height: 80 }} />
             <NavBarLeft sx={{ display: { xs: "none", md: "flex" } }}>
                 <Box sx={{ textAlign: "center", fontSize: "50px" }}>
                     <ImSpotify color="green" />
