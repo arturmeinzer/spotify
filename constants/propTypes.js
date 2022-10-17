@@ -18,3 +18,19 @@ export const PROP_TYPE_ARTIST = PropTypes.shape({
     }),
     popularity: PropTypes.number,
 });
+
+export const PROP_TYPE_TRACK = PropTypes.shape({
+    album: PropTypes.shape({
+        name: PropTypes.string,
+        images: PROP_TYPE_IMAGES,
+    }),
+    artists: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+    })),
+    name: PropTypes.string,
+    id: PropTypes.string,
+    popularity: PropTypes.number,
+    preview_url: PropTypes.string,
+    href: PropTypes.string,
+    duration_ms: PropTypes.number,
+});

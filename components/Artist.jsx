@@ -11,7 +11,7 @@ import { SIZE_MEDIUM } from "../constants/imageSizes";
 const Artist = ({ artist, size, direction }) => (
     <AppLink href="/artists/[id]" as={`/artists/${artist.id}`}>
         <Stack
-            gap="20px"
+            gap={2}
             flexDirection={direction}
             alignItems="center"
             sx={{ textAlign: "center", width: direction === "row" ? "auto" : getWidth(size) }}

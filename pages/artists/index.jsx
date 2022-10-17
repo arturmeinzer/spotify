@@ -35,8 +35,8 @@ export const Artists = () => {
             <Box
                 display="grid"
                 gridTemplateColumns="repeat(auto-fit, 160px)"
-                justifyContent="space-between"
-                gap={4}
+                gap={3}
+                sx={{ justifyContent: { xs: "space-around", md: "space-between" } }}
             >
                 {artistItems.map((item) => <Artist key={item.id} artist={item} />)}
             </Box>

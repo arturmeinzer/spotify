@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Image from "next/image";
-import { PROP_TYPE_IMAGES } from "../constants/propTypes";
+import { PROP_TYPE_TRACK } from "../constants/propTypes";
 import { findBestImage, getHeight, getWidth } from "../utils/ImageHelper";
 import { SIZE_SMALL } from "../constants/imageSizes";
 
@@ -15,7 +15,11 @@ const msToMinutes = (ms) => {
 };
 
 const TrackItem = ({ track, size }) => (
-    <Stack flexDirection="row" gap={3} sx={{ height: getHeight(size) }}>
+    <Stack
+        flexDirection="row"
+        gap={2}
+        sx={{ height: getHeight(size) }}
+    >
         <Box sx={{ minWidth: getWidth(size) }}>
             <Image
                 src={findBestImage(track.album.images, SIZE_SMALL)}
@@ -38,21 +42,7 @@ const TrackItem = ({ track, size }) => (
 );
 
 TrackItem.propTypes = {
-    track: PropTypes.shape({
-        album: PropTypes.shape({
-            name: PropTypes.string,
-            images: PROP_TYPE_IMAGES,
-        }),
-        artists: PropTypes.arrayOf(PropTypes.shape({
-            name: PropTypes.string,
-        })),
-        name: PropTypes.string,
-        id: PropTypes.string,
-        popularity: PropTypes.number,
-        preview_url: PropTypes.string,
-        href: PropTypes.string,
-        duration_ms: PropTypes.number,
-    }).isRequired,
+    track: PROP_TYPE_TRACK.isRequired,
     size: PropTypes.string,
 };
 
