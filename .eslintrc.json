@@ -21,8 +21,6 @@
                 "namedComponents": "arrow-function",
                 "unnamedComponents": "arrow-function"
             }
-        ],
-        "no-underscore-dangle": ["error", { "allow":  ["_id"]}],
-        "import/extensions": 0
+        ]
     }
 }

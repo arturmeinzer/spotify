@@ -10,9 +10,9 @@ const WIDTH = 75;
 const HEIGHT = 75;
 
 const msToMinutes = (ms) => {
-    const fullSeconds = ms / 1000;
-    const seconds = Math.round(fullSeconds % 60);
-    const minutes = Math.floor(fullSeconds / 60);
+    const totalSeconds = ms / 1000;
+    const seconds = Math.round(totalSeconds % 60);
+    const minutes = Math.floor(totalSeconds / 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 

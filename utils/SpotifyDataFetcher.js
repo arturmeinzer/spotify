@@ -84,6 +84,11 @@ class SpotifyDataFetcher {
         const headers = await this.getHeaders();
         return axios.get("https://api.spotify.com/v1/me/player/recently-played", headers);
     }
+
+    getTopTracks = async (timeRange) => {
+        const headers = await this.getHeaders();
+        return axios.get(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=${timeRange}`, headers);
+    }
 }
 
 export default SpotifyDataFetcher;
