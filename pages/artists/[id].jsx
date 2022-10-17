@@ -15,15 +15,15 @@ import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
 import { findBestImage } from "../../utils/ImageHelper";
 import withAuth from "../../hoc/withAuth";
 
-const GreenBox = styled(Box)(({ theme }) => ({
-    color: theme.palette.text.primary,
-    fontWeight: "bold",
-}));
-
 const Header = styled(Box)(({ theme }) => ({
     color: theme.palette.text.secondary,
     fontSize: "12px",
     marginBottom: "5px",
+}));
+
+const Content = styled(Box)(({ theme }) => ({
+    color: theme.palette.text.primary,
+    fontWeight: "bold",
 }));
 
 const HEIGHT = 300;
@@ -76,15 +76,15 @@ const ArtistDetail = () => {
                     >
                         <Box>
                             <Header>Followers</Header>
-                            <GreenBox>{artist.followers.total.toLocaleString()}</GreenBox>
+                            <Content>{artist.followers.total.toLocaleString()}</Content>
                         </Box>
                         <Box>
                             <Header>Genres</Header>
-                            {artist.genres.map((genre) => <GreenBox>{genre}</GreenBox>)}
+                            {artist.genres.map((genre) => <Content key={genre}>{genre}</Content>)}
                         </Box>
                         <Box>
                             <Header>Popularity</Header>
-                            <GreenBox>{`${artist.popularity} %`}</GreenBox>
+                            <Content>{`${artist.popularity} %`}</Content>
                         </Box>
                     </Stack>
                 </Stack>

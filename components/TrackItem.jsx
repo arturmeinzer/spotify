@@ -4,10 +4,8 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Image from "next/image";
 import { PROP_TYPE_IMAGES } from "../constants/propTypes";
-import { findBestImage } from "../utils/ImageHelper";
-
-const WIDTH = 75;
-const HEIGHT = 75;
+import { findBestImage, getHeight, getWidth } from "../utils/ImageHelper";
+import { SIZE_SMALL } from "../constants/imageSizes";
 
 const msToMinutes = (ms) => {
     const totalSeconds = ms / 1000;
@@ -16,20 +14,20 @@ const msToMinutes = (ms) => {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
-const TrackItem = ({ track }) => (
-    <Stack flexDirection="row" gap={3}>
-        <Box sx={{ minWidth: "75px" }}>
+const TrackItem = ({ track, size }) => (
+    <Stack flexDirection="row" gap={3} sx={{ height: getHeight(size) }}>
+        <Box sx={{ minWidth: getWidth(size) }}>
             <Image
-                src={findBestImage(track.album.images, HEIGHT, WIDTH)}
-                width={WIDTH}
-                height={HEIGHT}
+                src={findBestImage(track.album.images, SIZE_SMALL)}
+                width={getWidth(SIZE_SMALL)}
+                height={getHeight(SIZE_SMALL)}
             />
         </Box>
-        <Stack sx={{ flexGrow: 1 }}>
-            <Box>
+        <Stack sx={{ flexGrow: 1, overflow: "hidden" }}>
+            <Box sx={{ whiteSpace: "nowrap" }}>
                 {track.name}
             </Box>
-            <Box sx={{ color: "grey.500" }}>
+            <Box sx={{ color: (theme) => theme.palette.text.secondary }}>
                 {track.artists.map((item) => item.name).join(" ")}
                 &nbsp;-&nbsp;
                 {track.album.name}
@@ -55,6 +53,11 @@ TrackItem.propTypes = {
         href: PropTypes.string,
         duration_ms: PropTypes.number,
     }).isRequired,
+    size: PropTypes.string,
+};
+
+TrackItem.defaultProps = {
+    size: SIZE_SMALL,
 };
 
 export default TrackItem;

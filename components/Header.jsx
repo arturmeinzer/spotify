@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
-const Header = ({ title, children }) => (
+const Header = ({ title, as, children }) => (
     <Box sx={{
         display: "flex",
         justifyContent: "space-between",
@@ -13,18 +13,20 @@ const Header = ({ title, children }) => (
         gap: "20px",
     }}
     >
-        <Typography variant="h5" as="h1" sx={{ fontWeight: "bold" }}>{title}</Typography>
+        <Typography variant="h5" as={as} sx={{ fontWeight: "bold" }}>{title}</Typography>
         <Box>{children}</Box>
     </Box>
 );
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
+    as: PropTypes.string,
     children: PropTypes.node,
 };
 
 Header.defaultProps = {
     children: null,
+    as: "h1",
 };
 
 export default Header;
