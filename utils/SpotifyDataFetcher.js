@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setupCache } from "axios-cache-interceptor/dev";
 import {
     SPOTIFY_ACCESS_TOKEN,
     SPOTIFY_REFRESH_TOKEN,
@@ -7,9 +8,17 @@ import {
 } from "../constants/spotify";
 import { TIME_RANGE_LONG_TERM } from "../constants/timeRange";
 
+const Axios = setupCache(
+    axios.create(),
+    {
+        ttl: 1000 * 60 * 30,
+        interpretHeader: false,
+    },
+);
+
 class SpotifyDataFetcher {
     constructor() {
-        this.axios = axios.create();
+        this.axios = Axios;
     }
 
     setTokenTimestamp = () => {
@@ -35,7 +44,7 @@ class SpotifyDataFetcher {
 
     refreshAccessToken = async () => {
         try {
-            const { data } = await axios.get(`/api/refreshToken?refreshToken=${this.getLocalRefreshToken()}`);
+            const { data } = await this.axios.get(`/api/refreshToken?refreshToken=${this.getLocalRefreshToken()}`);
             const { accessToken } = data;
             this.setLocalAccessToken(accessToken);
         } catch (e) {
@@ -72,30 +81,32 @@ class SpotifyDataFetcher {
         };
     }
 
-    getUser = async () => {
+    fetch = async (url) => {
         const headers = await this.getHeaders();
-        return axios.get("https://api.spotify.com/v1/me", headers);
+        return this.axios.get(url, headers);
     }
 
-    getTopArtists = async (timeRange, limit = 50) => {
-        const headers = await this.getHeaders();
-        return axios.get(`https://api.spotify.com/v1/me/top/artists?limit=${limit}&time_range=${timeRange}`, headers);
-    }
+    getUser = async () => (
+        this.fetch("https://api.spotify.com/v1/me")
+    );
 
-    getArtist = async (artistId) => {
-        const headers = await this.getHeaders();
-        return axios.get(`https://api.spotify.com/v1/artists/${artistId}`, headers);
-    }
+    getTopArtists = async (timeRange, limit = 50) => (
+        this.fetch(`https://api.spotify.com/v1/me/top/artists?limit=${limit}&time_range=${timeRange}`)
+    );
 
-    getRecentlyPlayed = async () => {
-        const headers = await this.getHeaders();
-        return axios.get("https://api.spotify.com/v1/me/player/recently-played", headers);
-    }
+    getArtist = async (artistId) => (
+        this.fetch(`https://api.spotify.com/v1/artists/${artistId}`)
+    );
 
-    getTopTracks = async (timeRange, limit = 50) => {
-        const headers = await this.getHeaders();
-        return axios.get(`https://api.spotify.com/v1/me/top/tracks?limit=${limit}&time_range=${timeRange}`, headers);
-    }
+    getRecentlyPlayed = async () => (
+        this.fetch("https://api.spotify.com/v1/me/player/recently-played")
+    );
+
+    getTopTracks = async (timeRange, limit = 50) => (
+        this.fetch(`https://api.spotify.com/v1/me/top/tracks?limit=${limit}&time_range=${timeRange}`)
+    );
+
+    getPlaylists = async () => this.fetch("https://api.spotify.com/v1/me/playlists")
 
     getUserInfo = async () => (
         axios.all([
