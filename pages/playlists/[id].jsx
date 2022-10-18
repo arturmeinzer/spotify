@@ -1,24 +1,63 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useRef, useState,
+} from "react";
+import { useRouter } from "next/router";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
+import Playlist from "../../components/Playlist";
+import TrackItem from "../../components/TrackItem";
+import { SIZE_SMALL } from "../../constants/imageSizes";
+import AppLink from "../../components/AppLink";
+import withAuth from "../../hoc/withAuth";
+import Loader from "../../components/Loader";
 
 const PlaylistDetail = () => {
+    const [playlist, setPlaylist] = useState(null);
     const shouldFetch = useRef(true);
     const dataFetcher = useContext(DataContext);
+    const router = useRouter();
+    const { id } = router.query;
 
     useEffect(() => {
-        if (shouldFetch.current) {
+        if (shouldFetch.current && typeof id !== "undefined") {
             shouldFetch.current = false;
-            // eslint-disable-next-line no-console
-            console.log("fetch playlist");
+            dataFetcher.getPlaylist(id).then((response) => {
+                console.log(response.data);
+                setPlaylist(response.data);
+                shouldFetch.current = true;
+            });
         }
-    }, [dataFetcher]);
+    }, [id, dataFetcher]);
+
+    if (!playlist) {
+        return (
+            <BaseLayout>
+                <Loader />
+            </BaseLayout>
+        );
+    }
 
     return (
         <BaseLayout>
-            Playlist
+            <Stack flexDirection="row" gap={5}>
+                <Stack gap={3}>
+                    <Playlist playlist={playlist} />
+                    <AppLink href="/recommendations/[id]" as={`/recommendations/${id}`}>
+                        <Button color="success">Recommendations</Button>
+                    </AppLink>
+                </Stack>
+                <Stack gap={3} flexGrow={1}>
+                    {playlist && playlist.tracks.items.map((item) => (
+                        <TrackItem key={item.track.id} size={SIZE_SMALL} track={item.track} />
+                    ))}
+                </Stack>
+            </Stack>
         </BaseLayout>
     );
 };
 
-export default PlaylistDetail;
+export default withAuth(PlaylistDetail);
