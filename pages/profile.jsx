@@ -5,7 +5,6 @@ import React, {
     useState,
 } from "react";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
@@ -16,9 +15,9 @@ import withAuth from "../hoc/withAuth";
 import Artist from "../components/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
 import TrackItem from "../components/TrackItem";
-import AppLink from "../components/AppLink";
 import Loader from "../components/Loader";
 import DataContext from "../context/DataContext";
+import ProfileSubHeader from "../components/ProfileSubHeader";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
@@ -63,23 +62,13 @@ const Profile = () => {
 
             <Stack gap="20px" sx={{ flexDirection: { xs: "column", md: "row" } }}>
                 <Stack gap={3} flex="50%">
-                    <Stack direction="row" gap={5} alignItems="center">
-                        <Typography variant="h6" as="h2" fontWeight="bold">Top Artists of All Time</Typography>
-                        <AppLink href="/artists">
-                            <Button color="success">See More</Button>
-                        </AppLink>
-                    </Stack>
+                    <ProfileSubHeader href="/artists" title="Top Artists of All Time" />
                     {profileData.topArtists.items.map(
                         (artist) => <Artist key={artist.id} size={SIZE_SMALL} direction="row" artist={artist} />,
                     )}
                 </Stack>
                 <Stack gap={3} flex="50%">
-                    <Stack direction="row" gap={5} alignItems="center">
-                        <Typography variant="h6" as="h2" fontWeight="bold">Top Tracks of All Time</Typography>
-                        <AppLink href="/tracks">
-                            <Button color="success">See More</Button>
-                        </AppLink>
-                    </Stack>
+                    <ProfileSubHeader href="/tracks" title="Top Tracks of All Time" />
                     {profileData.topTracks.items.map(
                         (track) => <TrackItem key={track.id} track={track} />,
                     )}

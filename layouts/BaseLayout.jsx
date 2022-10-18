@@ -9,7 +9,7 @@ const BaseLayout = ({ children, loading }) => (
         {loading && <Loader />}
         {!loading && (
             <>
-                <Box sx={{ padding: { xs: "10px 10px 120px", md: "40px 40px 40px 140px" } }}>
+                <Box sx={{ padding: { xs: "20px 20px 120px", md: "40px 40px 40px 140px" } }}>
                     {children}
                 </Box>
                 <NavBar />
