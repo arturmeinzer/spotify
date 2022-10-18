@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import CenterContainer from "../components/UI/CenterContainer";
+import Loader from "../components/Loader";
 
 const Home = () => {
     const [isAuth, setIsAuth] = useState(false);
@@ -32,16 +33,18 @@ const Home = () => {
         }
     }, [isAuth, router]);
 
+    if (isAuth) {
+        return <Loader />;
+    }
+
     return (
         <CenterContainer>
             <Box>Spotify Profile</Box>
             <Button
-                variant="contained"
                 color="success"
-                sx={{ borderRadius: "50px", padding: "10px 30px" }}
                 onClick={() => router.push("/api/login")}
             >
-                Log in to Spotify
+                Login to Spotify
             </Button>
         </CenterContainer>
     );

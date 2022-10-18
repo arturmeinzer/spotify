@@ -63,7 +63,7 @@ const Profile = () => {
 
             <Stack gap="20px" sx={{ flexDirection: { xs: "column", md: "row" } }}>
                 <Stack gap={3} flex="50%">
-                    <Stack direction="row" gap={5}>
+                    <Stack direction="row" gap={5} alignItems="center">
                         <Typography variant="h6" as="h2" fontWeight="bold">Top Artists of All Time</Typography>
                         <AppLink href="/artists">
                             <Button color="success">See More</Button>
@@ -74,7 +74,7 @@ const Profile = () => {
                     )}
                 </Stack>
                 <Stack gap={3} flex="50%">
-                    <Stack direction="row" gap={5}>
+                    <Stack direction="row" gap={5} alignItems="center">
                         <Typography variant="h6" as="h2" fontWeight="bold">Top Tracks of All Time</Typography>
                         <AppLink href="/tracks">
                             <Button color="success">See More</Button>

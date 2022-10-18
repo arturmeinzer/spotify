@@ -9,7 +9,14 @@ const theme = createTheme({
     components: {
         MuiButton: {
             defaultProps: {
-                variant: "outlined",
+                variant: "contained",
+            },
+            styleOverrides: {
+                root: {
+                    borderRadius: "50px",
+                    padding: "10px 30px",
+                    fontWeight: "bold",
+                },
             },
         },
     },
