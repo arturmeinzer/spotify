@@ -1,12 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
+import Anchor from "./UI/Anchor";
 
 const AppLink = ({ href, as, children }) => (
     <Link href={href} as={as} passHref>
-        <a href="/replace">
+        <Anchor href="/replace">
             {children}
-        </a>
+        </Anchor>
     </Link>
 );
 
