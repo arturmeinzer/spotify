@@ -105,6 +105,15 @@ class SpotifyDataFetcher {
         this.fetch(`https://api.spotify.com/v1/playlists/${playlistId}`)
     );
 
+    getRecommendationsForTracks = async (trackIds) => {
+        const shuffledTracks = trackIds
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 5)
+            .join(",");
+
+        return this.fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${shuffledTracks}`);
+    }
+
     getUserInfo = async () => (
         axios.all([
             this.getUser(),

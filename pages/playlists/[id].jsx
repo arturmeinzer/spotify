@@ -26,7 +26,6 @@ const PlaylistDetail = () => {
         if (shouldFetch.current && typeof id !== "undefined") {
             shouldFetch.current = false;
             dataFetcher.getPlaylist(id).then((response) => {
-                console.log(response.data);
                 setPlaylist(response.data);
                 shouldFetch.current = true;
             });
