@@ -1,4 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -6,26 +11,25 @@ import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import { FaUserCircle } from "react-icons/fa";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
-import BaseLayout from "../components/BaseLayout";
+import BaseLayout from "../layouts/BaseLayout";
 import withAuth from "../hoc/withAuth";
 import Artist from "../components/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
 import TrackItem from "../components/TrackItem";
 import AppLink from "../components/AppLink";
 import Loader from "../components/Loader";
+import DataContext from "../context/DataContext";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
     const shouldFetch = useRef(true);
     const router = useRouter();
+    const dataFetcher = useContext(DataContext);
 
     useEffect(() => {
         if (shouldFetch.current) {
             shouldFetch.current = false;
-            const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getUserInfo().then((response) => {
-                // eslint-disable-next-line no-console
-                console.log(response);
                 const { user, topArtists, topTracks } = response;
                 setProfileData({
                     user,
@@ -34,7 +38,7 @@ const Profile = () => {
                 });
             });
         }
-    }, []);
+    }, [dataFetcher]);
 
     const onLogout = () => {
         SpotifyDataFetcher.logout();

@@ -1,19 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import Stack from "@mui/material/Stack";
-import BaseLayout from "../../components/BaseLayout";
+import BaseLayout from "../../layouts/BaseLayout";
 import Header from "../../components/Header";
 import withAuth from "../../hoc/withAuth";
-import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
 import Playlist from "../../components/Playlist";
+import DataContext from "../../context/DataContext";
 
 const Playlists = () => {
     const shouldFetch = useRef(true);
     const [playlistItems, setPlaylistItems] = useState([]);
+    const dataFetcher = useContext(DataContext);
 
     useEffect(() => {
         if (shouldFetch.current) {
             shouldFetch.current = false;
-            const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getPlaylists().then((response) => {
                 // eslint-disable-next-line no-console
                 console.log(response.data);
@@ -21,7 +26,7 @@ const Playlists = () => {
                 setPlaylistItems(items);
             });
         }
-    }, []);
+    }, [dataFetcher]);
 
     return (
         <BaseLayout loading={playlistItems.length === 0}>

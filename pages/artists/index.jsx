@@ -1,29 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import Box from "@mui/material/Box";
-import BaseLayout from "../../components/BaseLayout";
-import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
+import BaseLayout from "../../layouts/BaseLayout";
 import Artist from "../../components/Artist";
 import Header from "../../components/Header";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
 import withAuth from "../../hoc/withAuth";
 import TimeRangeToggle from "../../components/TimeRangeToggle";
+import DataContext from "../../context/DataContext";
 
 export const Artists = () => {
     const shouldFetch = useRef(true);
     const [artistItems, setArtistItems] = useState([]);
     const [timeRange, setTimeRange] = useState(TIME_RANGE_LONG_TERM);
+    const dataFetcher = useContext(DataContext);
 
     useEffect(() => {
         if (shouldFetch.current) {
             shouldFetch.current = false;
-            const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getTopArtists(timeRange).then((response) => {
                 const { items } = response.data;
                 setArtistItems(items);
                 shouldFetch.current = true;
             });
         }
-    }, [timeRange]);
+    }, [dataFetcher, timeRange]);
 
     return (
         <BaseLayout loading={artistItems.length === 0}>

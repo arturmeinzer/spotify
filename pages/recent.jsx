@@ -1,26 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import Stack from "@mui/material/Stack";
-import BaseLayout from "../components/BaseLayout";
+import BaseLayout from "../layouts/BaseLayout";
 import Header from "../components/Header";
-import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import TrackItem from "../components/TrackItem";
 import withAuth from "../hoc/withAuth";
+import DataContext from "../context/DataContext";
 
 const Recent = () => {
     const shouldFetch = useRef(true);
     const [recentItems, setRecentItems] = useState([]);
+    const dataFetcher = useContext(DataContext);
 
     useEffect(() => {
         if (shouldFetch.current) {
             shouldFetch.current = false;
-            const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getRecentlyPlayed().then((response) => {
                 const { items } = response.data;
                 setRecentItems(items);
                 shouldFetch.current = true;
             });
         }
-    }, []);
+    }, [dataFetcher]);
 
     return (
         <BaseLayout loading={recentItems.length === 0}>

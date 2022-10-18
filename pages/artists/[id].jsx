@@ -1,4 +1,5 @@
 import React, {
+    useContext,
     useEffect,
     useRef,
     useState,
@@ -8,31 +9,31 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import BaseLayout from "../../components/BaseLayout";
-import SpotifyDataFetcher from "../../utils/SpotifyDataFetcher";
+import BaseLayout from "../../layouts/BaseLayout";
 import withAuth from "../../hoc/withAuth";
 import Loader from "../../components/Loader";
 import { SIZE_BIG } from "../../constants/imageSizes";
 import Image from "../../components/Image";
 import PropertyHeader from "../../components/UI/PropertyHeader";
 import PropertyContent from "../../components/UI/PropertyContent";
+import DataContext from "../../context/DataContext";
 
 const ArtistDetail = () => {
     const shouldFetch = useRef(true);
     const [artist, setArtist] = useState(null);
+    const dataFetcher = useContext(DataContext);
     const router = useRouter();
     const { id } = router.query;
 
     useEffect(() => {
         if (shouldFetch.current && typeof id !== "undefined") {
             shouldFetch.current = false;
-            const dataFetcher = new SpotifyDataFetcher();
             dataFetcher.getArtist(id).then((response) => {
                 setArtist(response.data);
                 shouldFetch.current = true;
             });
         }
-    }, [id]);
+    }, [dataFetcher, id]);
 
     if (!artist) {
         return (

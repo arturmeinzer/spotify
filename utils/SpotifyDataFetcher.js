@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setupCache } from "axios-cache-interceptor/dev";
+import { setupCache } from "axios-cache-interceptor";
 import {
     SPOTIFY_ACCESS_TOKEN,
     SPOTIFY_REFRESH_TOKEN,
@@ -106,7 +106,9 @@ class SpotifyDataFetcher {
         this.fetch(`https://api.spotify.com/v1/me/top/tracks?limit=${limit}&time_range=${timeRange}`)
     );
 
-    getPlaylists = async () => this.fetch("https://api.spotify.com/v1/me/playlists")
+    getPlaylists = async () => (
+        this.fetch("https://api.spotify.com/v1/me/playlists")
+    );
 
     getUserInfo = async () => (
         axios.all([
