@@ -19,8 +19,8 @@ const BaseLayout = ({ children, loading }) => (
 );
 
 BaseLayout.propTypes = {
-    loading: PropTypes.bool,
     children: PropTypes.node.isRequired,
+    loading: PropTypes.bool,
 };
 
 BaseLayout.defaultProps = {

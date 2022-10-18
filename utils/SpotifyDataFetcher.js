@@ -101,6 +101,10 @@ class SpotifyDataFetcher {
         this.fetch("https://api.spotify.com/v1/me/playlists")
     );
 
+    getPlaylist = async (playlistId) => (
+        this.fetch(`https://api.spotify.com/v1/playlists/${playlistId}`)
+    );
+
     getUserInfo = async () => (
         axios.all([
             this.getUser(),

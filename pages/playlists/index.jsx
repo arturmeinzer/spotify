@@ -10,6 +10,7 @@ import Header from "../../components/Header";
 import withAuth from "../../hoc/withAuth";
 import Playlist from "../../components/Playlist";
 import DataContext from "../../context/DataContext";
+import AddPlaylist from "../../components/AddPlaylist";
 
 const Playlists = () => {
     const shouldFetch = useRef(true);
@@ -38,6 +39,7 @@ const Playlists = () => {
                 sx={{ justifyContent: { xs: "space-around", md: "start" } }}
             >
                 {playlistItems.map((item) => <Playlist key={item.id} playlist={item} />)}
+                <AddPlaylist />
             </Stack>
         </BaseLayout>
     );

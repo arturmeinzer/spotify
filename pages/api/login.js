@@ -14,7 +14,7 @@ const handler = (req, res) => {
     const state = generateRandomString(16);
     setCookie(SPOTIFY_STATE_KEY, state, { req, res });
 
-    const scope = "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public";
+    const scope = "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-modify-private playlist-read-collaborative playlist-modify-public";
 
     const query = new URLSearchParams({
         response_type: "code",
