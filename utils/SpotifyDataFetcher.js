@@ -1,5 +1,4 @@
 import axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
 import {
     SPOTIFY_ACCESS_TOKEN,
     SPOTIFY_REFRESH_TOKEN,
@@ -8,17 +7,9 @@ import {
 } from "../constants/spotify";
 import { TIME_RANGE_LONG_TERM } from "../constants/timeRange";
 
-const Axios = setupCache(
-    axios.create(),
-    {
-        ttl: 1000 * 60 * 30,
-        interpretHeader: false,
-    },
-);
-
 class SpotifyDataFetcher {
-    constructor() {
-        this.axios = Axios;
+    constructor(axiosInstance) {
+        this.axios = axiosInstance;
     }
 
     setTokenTimestamp = () => {

@@ -11,14 +11,11 @@ const BaseLayout = ({ children, loading }) => (
             <>
                 <Box sx={{
                     minHeight: "100%",
-                    height: "100%",
-                    padding: { xs: "10px", md: "40px" },
-                    paddingLeft: { xs: "10px", md: "140px" },
+                    padding: { xs: "10px 10px 120px", md: "40px 40px 40px 140px" },
                 }}
                 >
                     {children}
                 </Box>
-                <Box sx={{ height: 80 }} />
                 <NavBar />
             </>
         )}
