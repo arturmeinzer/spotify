@@ -43,8 +43,8 @@ const PlaylistDetail = () => {
 
     return (
         <BaseLayout>
-            <Stack flexDirection="row" gap={5}>
-                <Stack gap={3}>
+            <Stack gap={5} sx={{ flexDirection: { xs: "column", md: "row" } }}>
+                <Stack gap={3} alignItems="center">
                     <Playlist playlist={playlist} />
                     <AppLink href="/recommendations/[id]" as={`/recommendations/${id}`}>
                         <Button color="success">Recommendations</Button>
