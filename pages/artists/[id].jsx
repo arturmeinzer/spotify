@@ -67,6 +67,7 @@ const ArtistDetail = () => {
                         justifyContent="space-between"
                         textAlign="center"
                         maxWidth="500px"
+                        gap={3}
                         sx={{ textTransform: "uppercase" }}
                     >
                         <Box>

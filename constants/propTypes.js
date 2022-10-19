@@ -23,6 +23,7 @@ export const PROP_TYPE_TRACK = PropTypes.shape({
     album: PropTypes.shape({
         name: PropTypes.string,
         images: PROP_TYPE_IMAGES,
+        release_date: PropTypes.string,
     }),
     artists: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
@@ -33,4 +34,10 @@ export const PROP_TYPE_TRACK = PropTypes.shape({
     preview_url: PropTypes.string,
     href: PropTypes.string,
     duration_ms: PropTypes.number,
+    uri: PropTypes.string,
+});
+
+export const PROP_TYPES_ANALYSIS = PropTypes.shape({
+    start: PropTypes.number,
+    duration: PropTypes.number,
 });

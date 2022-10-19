@@ -8,8 +8,9 @@ import {
 import { TIME_RANGE_LONG_TERM } from "../constants/timeRange";
 
 class SpotifyDataFetcher {
-    constructor(axiosInstance) {
-        this.axios = axiosInstance;
+    constructor(axiosSpotify, axiosLocal) {
+        this.spotifyApi = axiosSpotify;
+        this.localApi = axiosLocal;
     }
 
     setTokenTimestamp = () => {
@@ -35,7 +36,8 @@ class SpotifyDataFetcher {
 
     refreshAccessToken = async () => {
         try {
-            const { data } = await this.axios.get(`/api/refreshToken?refreshToken=${this.getLocalRefreshToken()}`);
+            const refreshToken = this.getLocalRefreshToken();
+            const { data } = await this.localApi.get(`/api/refreshToken?refreshToken=${refreshToken}`);
             const { accessToken } = data;
             this.setLocalAccessToken(accessToken);
         } catch (e) {
@@ -74,35 +76,48 @@ class SpotifyDataFetcher {
 
     fetch = async (url) => {
         const headers = await this.getHeaders();
-        return this.axios.get(url, headers);
+        return this.spotifyApi.get(url, headers);
+    }
+
+    post = async (url, data) => {
+        const headers = await this.getHeaders();
+        return this.spotifyApi.post(url, data, headers);
     }
 
     getUser = async () => (
-        this.fetch("https://api.spotify.com/v1/me")
+        this.fetch("/me")
     );
 
     getTopArtists = async (timeRange, limit = 50) => (
-        this.fetch(`https://api.spotify.com/v1/me/top/artists?limit=${limit}&time_range=${timeRange}`)
+        this.fetch(`/me/top/artists?limit=${limit}&time_range=${timeRange}`)
     );
 
     getArtist = async (artistId) => (
-        this.fetch(`https://api.spotify.com/v1/artists/${artistId}`)
+        this.fetch(`/artists/${artistId}`)
     );
 
     getRecentlyPlayed = async () => (
-        this.fetch("https://api.spotify.com/v1/me/player/recently-played")
+        this.fetch("/me/player/recently-played")
     );
 
     getTopTracks = async (timeRange, limit = 50) => (
-        this.fetch(`https://api.spotify.com/v1/me/top/tracks?limit=${limit}&time_range=${timeRange}`)
+        this.fetch(`/me/top/tracks?limit=${limit}&time_range=${timeRange}`)
     );
 
     getPlaylists = async () => (
-        this.fetch("https://api.spotify.com/v1/me/playlists")
+        this.fetch("/me/playlists")
     );
 
     getPlaylist = async (playlistId) => (
-        this.fetch(`https://api.spotify.com/v1/playlists/${playlistId}`)
+        this.fetch(`/playlists/${playlistId}`)
+    );
+
+    getTrack = async (trackId) => (
+        this.fetch(`/tracks/${trackId}`)
+    );
+
+    getTrackAudioAnalysis = async (trackId) => (
+        this.fetch(`/audio-analysis/${trackId}`)
     );
 
     getRecommendationsForTracks = async (trackIds) => {
@@ -111,11 +126,12 @@ class SpotifyDataFetcher {
             .slice(0, 5)
             .join(",");
 
-        return this.fetch(`https://api.spotify.com/v1/recommendations?seed_tracks=${shuffledTracks}`);
+        return this.fetch(`/recommendations?seed_tracks=${shuffledTracks}`);
     }
 
-    getUserInfo = async () => (
-        axios.all([
+    getUserInfo = async () => {
+        await this.getAccessToken();
+        return axios.all([
             this.getUser(),
             this.getTopArtists(TIME_RANGE_LONG_TERM, 10),
             this.getTopTracks(TIME_RANGE_LONG_TERM, 10),
@@ -129,8 +145,21 @@ class SpotifyDataFetcher {
                 topArtists: topArtists.data,
                 topTracks: topTracks.data,
             })),
-        )
-    )
+        );
+    }
+
+    getTrackInfo = async (trackId) => {
+        await this.getAccessToken();
+        return axios.all([
+            this.getTrack(trackId),
+            this.getTrackAudioAnalysis(trackId),
+        ]).then(
+            axios.spread((track, audioAnalysis) => ({
+                track: track.data,
+                audioAnalysis: audioAnalysis.data,
+            })),
+        );
+    }
 }
 
 export default SpotifyDataFetcher;
