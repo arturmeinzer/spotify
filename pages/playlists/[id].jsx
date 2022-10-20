@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { MdDelete } from "react-icons/md";
+import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
 import Playlist from "../../components/playlist/Playlist";
@@ -18,13 +19,13 @@ import AppLink from "../../components/shared/AppLink";
 import withAuth from "../../hoc/withAuth";
 import Loader from "../../components/shared/Loader";
 import MenuContext from "../../context/MenuContext";
-import AlertContext from "../../context/AlertContext";
+import useDeleteFromPlaylist from "../../hooks/useDeleteFromPlaylist";
 
 const PlaylistDetail = () => {
     const [playlist, setPlaylist] = useState(null);
     const shouldFetch = useRef(true);
     const dataFetcher = useContext(DataContext);
-    const alert = useContext(AlertContext);
+    const [deleteFromPlaylist] = useDeleteFromPlaylist();
     const router = useRouter();
     const { id } = router.query;
 
@@ -52,8 +53,7 @@ const PlaylistDetail = () => {
             key="delete"
             size="small"
             onClick={() => {
-                dataFetcher.removeTrackFromPlaylist(uri, playlistId).then(() => {
-                    alert.success("Track deleted from Playlist");
+                deleteFromPlaylist(uri, playlistId, () => {
                     setPlaylist((prev) => ({
                         ...prev,
                         tracks: {
@@ -62,12 +62,16 @@ const PlaylistDetail = () => {
                             items: prev.tracks.items.filter((item) => item.track.uri !== uri),
                         },
                     }));
-                }).catch((err) => {
-                    alert.error(err.message);
                 });
             }}
         >
             <MdDelete />
+        </IconButton>,
+        <IconButton key="moveUp" size="small">
+            <BsArrowUpCircle />
+        </IconButton>,
+        <IconButton key="moveDown" size="small">
+            <BsArrowDownCircle />
         </IconButton>,
     ]);
 

@@ -12,6 +12,7 @@ import DataContext from "../../context/DataContext";
 import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Header from "../../components/shared/Header";
+import Button from "@mui/material/Button";
 
 const PlaylistRecommendations = () => {
     const [trackItems, setTrackItems] = useState([]);
@@ -38,7 +39,9 @@ const PlaylistRecommendations = () => {
 
     return (
         <BaseLayout loading={trackItems.length === 0}>
-            <Header title={`Recommendations Based On ${playlistName}`} />
+            <Header title={`Recommendations Based On ${playlistName}`}>
+                <Button onClick={() => router.back()}>Back</Button>
+            </Header>
             <Stack gap={3}>
                 {trackItems.map((item) => (
                     <TrackItem key={item.id} size={SIZE_SMALL} track={item} />

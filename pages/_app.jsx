@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
 import Alert from "../components/shared/Alert";
 import { AlertProvider } from "../context/AlertContext";
+import { DataProvider } from "../context/DataContext";
 
 const theme = createTheme({
     components: {
@@ -31,13 +32,15 @@ const theme = createTheme({
 const MyApp = ({ Component, pageProps }) => (
     <ThemeProvider theme={theme}>
         <AlertProvider>
-            <Head>
-                <title>Spotify App</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            </Head>
-            <CssBaseline />
-            <Alert />
-            <Component {...pageProps} />
+            <DataProvider>
+                <Head>
+                    <title>Spotify App</title>
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                </Head>
+                <CssBaseline />
+                <Alert />
+                <Component {...pageProps} />
+            </DataProvider>
         </AlertProvider>
     </ThemeProvider>
 );
