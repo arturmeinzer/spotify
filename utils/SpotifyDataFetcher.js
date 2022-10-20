@@ -84,7 +84,6 @@ class SpotifyDataFetcher {
 
     delete = async (url, options = {}) => {
         const headers = await this.getHeaders();
-        console.log({ headers, ...options });
         return this.spotifyApi.delete(url, { headers, ...options });
     }
 

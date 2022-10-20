@@ -1,4 +1,5 @@
 import React, {
+    cloneElement,
     useContext,
     useEffect,
     useRef,
@@ -15,9 +16,10 @@ import Image from "./Image";
 import Anchor from "./UI/Anchor";
 import AlertContext from "../context/AlertContext";
 
-const PlaylistModal = ({ open, setOpen, uri }) => {
+const PlaylistModal = ({ uri, button }) => {
     const shouldFetch = useRef(true);
     const [playlistItems, setPlaylistItems] = useState([]);
+    const [open, setOpen] = useState(false);
     const dataFetcher = useContext(DataContext);
     const alert = useContext(AlertContext);
 
@@ -47,6 +49,7 @@ const PlaylistModal = ({ open, setOpen, uri }) => {
             } else {
                 dataFetcher.addTrackToPlaylist(uri, playlistId).then(() => {
                     alert.success("Successfully added to Playlist");
+                    setOpen(false);
                 }).catch((err) => {
                     alert.error(err.message);
                 });
@@ -55,32 +58,34 @@ const PlaylistModal = ({ open, setOpen, uri }) => {
     };
 
     return (
-        <Modal
-            open={open}
-            onClose={() => setOpen(false)}
-        >
-            <ModalContainer>
-                <Stack gap={2} sx={{ flexDirection: "row", flexWrap: "wrap" }}>
-                    {playlistItems.map((item) => (
-                        <Anchor key={item.id} onClick={() => addToPlaylist(item.id)}>
-                            <Stack gap={1} textAlign="center">
-                                <Box>
-                                    <Image imagesArray={item.images} size={SIZE_MEDIUM} />
-                                </Box>
-                                <Box>{item.name}</Box>
-                            </Stack>
-                        </Anchor>
-                    ))}
-                </Stack>
-            </ModalContainer>
-        </Modal>
+        <>
+            {cloneElement(button, { onClick: () => setOpen(true) })}
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+            >
+                <ModalContainer>
+                    <Stack gap={2} sx={{ flexDirection: "row", flexWrap: "wrap" }}>
+                        {playlistItems.map((item) => (
+                            <Anchor key={item.id} onClick={() => addToPlaylist(item.id)}>
+                                <Stack gap={1} textAlign="center">
+                                    <Box>
+                                        <Image imagesArray={item.images} size={SIZE_MEDIUM} />
+                                    </Box>
+                                    <Box>{item.name}</Box>
+                                </Stack>
+                            </Anchor>
+                        ))}
+                    </Stack>
+                </ModalContainer>
+            </Modal>
+        </>
     );
 };
 
 PlaylistModal.propTypes = {
-    open: PropTypes.bool.isRequired,
-    setOpen: PropTypes.func.isRequired,
     uri: PropTypes.string.isRequired,
+    button: PropTypes.node.isRequired,
 };
 
 export default PlaylistModal;

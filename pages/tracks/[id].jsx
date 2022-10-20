@@ -21,7 +21,6 @@ import PlaylistModal from "../../components/PlaylistModal";
 const TrackDetails = () => {
     const shouldFetch = useRef(true);
     const [data, setData] = useState(null);
-    const [openModal, setOpenModal] = useState(true);
     const dataFetcher = useContext(DataContext);
     const router = useRouter();
     const { id } = router.query;
@@ -65,10 +64,8 @@ const TrackDetails = () => {
                         </Stack>
                     </Stack>
                     <Stack flexDirection="row">
-                        <Button color="success" onClick={() => setOpenModal(true)}>Add To Playlist</Button>
                         <PlaylistModal
-                            open={openModal}
-                            setOpen={setOpenModal}
+                            button={<Button color="success">Add To Playlist</Button>}
                             uri={data.track.uri}
                         />
                     </Stack>
