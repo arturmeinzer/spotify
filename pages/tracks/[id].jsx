@@ -23,10 +23,10 @@ const TrackDetails = () => {
     const [data, setData] = useState(null);
     const dataFetcher = useContext(DataContext);
     const router = useRouter();
-    const { id } = router.query;
 
     useEffect(() => {
-        if (shouldFetch.current && typeof id !== "undefined") {
+        if (shouldFetch.current && router.isReady) {
+            const { id } = router.query;
             shouldFetch.current = false;
             dataFetcher.getTrackInfo(id).then((response) => {
                 setData({
@@ -39,7 +39,7 @@ const TrackDetails = () => {
         return () => {
             shouldFetch.current = true;
         };
-    }, [id, dataFetcher]);
+    }, [dataFetcher, router]);
 
     return (
         <BaseLayout loading={data === null}>

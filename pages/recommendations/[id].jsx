@@ -21,16 +21,16 @@ const PlaylistRecommendations = () => {
     const shouldFetch = useRef(true);
     const dataFetcher = useContext(DataContext);
     const router = useRouter();
-    const { id } = router.query;
 
     useEffect(() => {
-        if (shouldFetch.current && typeof id !== "undefined") {
+        if (shouldFetch.current && router.isReady) {
+            const { id } = router.query;
             shouldFetch.current = false;
             dataFetcher.getPlaylist(id).then((playlistResponse) => {
                 setPlaylist(playlistResponse.data);
             });
         }
-    }, [id, dataFetcher]);
+    }, [dataFetcher, router]);
 
     useEffect(() => {
         if (playlist && trackItems.length === 0) {

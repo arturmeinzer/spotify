@@ -30,17 +30,17 @@ const PlaylistDetail = () => {
     const [deleteFromPlaylist] = useDeleteFromPlaylist();
     const { moveUp, moveDown } = useMoveItemInPlaylist();
     const router = useRouter();
-    const { id } = router.query;
 
     useEffect(() => {
-        if (shouldFetch.current && typeof id !== "undefined") {
+        if (shouldFetch.current && router.isReady) {
+            const { id } = router.query;
             shouldFetch.current = false;
             dataFetcher.getPlaylist(id).then((response) => {
                 setPlaylist(response.data);
                 shouldFetch.current = true;
             });
         }
-    }, [id, dataFetcher]);
+    }, [dataFetcher, router]);
 
     if (!playlist) {
         return (
@@ -117,7 +117,7 @@ const PlaylistDetail = () => {
             <Stack gap={5} sx={{ flexDirection: { xs: "column", md: "row" } }}>
                 <Stack gap={3} alignItems="center">
                     <Playlist playlist={playlist} />
-                    <AppLink href="/recommendations/[id]" as={`/recommendations/${id}`}>
+                    <AppLink href="/recommendations/[id]" as={`/recommendations/${playlist.id}`}>
                         <Button color="success">Recommendations</Button>
                     </AppLink>
                 </Stack>

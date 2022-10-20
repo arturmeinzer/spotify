@@ -23,17 +23,17 @@ const ArtistDetail = () => {
     const [artist, setArtist] = useState(null);
     const dataFetcher = useContext(DataContext);
     const router = useRouter();
-    const { id } = router.query;
 
     useEffect(() => {
-        if (shouldFetch.current && typeof id !== "undefined") {
+        if (shouldFetch.current && router.isReady) {
+            const { id } = router.query;
             shouldFetch.current = false;
             dataFetcher.getArtist(id).then((response) => {
                 setArtist(response.data);
                 shouldFetch.current = true;
             });
         }
-    }, [dataFetcher, id]);
+    }, [dataFetcher, router]);
 
     if (!artist) {
         return (
