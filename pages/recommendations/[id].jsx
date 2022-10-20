@@ -5,6 +5,7 @@ import React, {
     useState,
 } from "react";
 import { useRouter } from "next/router";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import withAuth from "../../hoc/withAuth";
 import BaseLayout from "../../layouts/BaseLayout";
@@ -12,7 +13,6 @@ import DataContext from "../../context/DataContext";
 import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Header from "../../components/shared/Header";
-import Button from "@mui/material/Button";
 
 const PlaylistRecommendations = () => {
     const [trackItems, setTrackItems] = useState([]);

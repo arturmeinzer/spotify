@@ -15,18 +15,18 @@ class SpotifyDataFetcher {
 
     setTokenTimestamp = () => {
         window.localStorage.setItem(SPOTIFY_TOKEN_TIMESTAMP, Date.now().toString());
-    }
+    };
 
     setLocalAccessToken = (accessToken) => {
         this.setTokenTimestamp();
         window.localStorage.setItem(SPOTIFY_ACCESS_TOKEN, accessToken);
-    }
+    };
 
     setLocalRefreshToken = (refreshToken) => {
         window.localStorage.setItem(SPOTIFY_REFRESH_TOKEN, refreshToken);
-    }
+    };
 
-    getLocalAccessToken = () => window.localStorage.getItem(SPOTIFY_ACCESS_TOKEN)
+    getLocalAccessToken = () => window.localStorage.getItem(SPOTIFY_ACCESS_TOKEN);
 
     getLocalRefreshToken = () => window.localStorage.getItem(SPOTIFY_REFRESH_TOKEN);
 
@@ -44,7 +44,7 @@ class SpotifyDataFetcher {
             // eslint-disable-next-line no-console
             console.error(e);
         }
-    }
+    };
 
     getAccessToken = async () => {
         const timeRemaining = Date.now() - parseInt(this.getTokenTimestamp(), 10);
@@ -56,13 +56,13 @@ class SpotifyDataFetcher {
         }
 
         return this.getLocalAccessToken();
-    }
+    };
 
     static logout = () => {
         window.localStorage.removeItem(SPOTIFY_TOKEN_TIMESTAMP);
         window.localStorage.removeItem(SPOTIFY_REFRESH_TOKEN);
         window.localStorage.removeItem(SPOTIFY_ACCESS_TOKEN);
-    }
+    };
 
     getHeaders = async () => {
         const accessToken = await this.getAccessToken();
@@ -70,22 +70,27 @@ class SpotifyDataFetcher {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
         };
-    }
+    };
 
     fetch = async (url, options = {}) => {
         const headers = await this.getHeaders();
         return this.spotifyApi.get(url, { headers, ...options });
-    }
+    };
 
     post = async (url, data, options = {}) => {
         const headers = await this.getHeaders();
         return this.spotifyApi.post(url, data, { headers, ...options });
-    }
+    };
 
-    delete = async (url, options = {}) => {
+    delete = async (url, options) => {
         const headers = await this.getHeaders();
         return this.spotifyApi.delete(url, { headers, ...options });
-    }
+    };
+
+    put = async (url, data, options) => {
+        const headers = await this.getHeaders();
+        return this.spotifyApi.put(url, data, { headers, ...options });
+    };
 
     getUser = async () => (
         this.fetch("/me")
@@ -149,6 +154,26 @@ class SpotifyDataFetcher {
         )
     );
 
+    changeTrackOrderInPlaylist = async (playlistId, snapshotId, rangeStart, insertBefore) => (
+        this.put(
+            `/playlists/${playlistId}/tracks`,
+            {
+                range_start: rangeStart,
+                range_length: 1,
+                insert_before: insertBefore,
+                snapshot_id: snapshotId,
+            },
+            {
+                cache: {
+                    update: {
+                        "list-playlists": "delete",
+                        [`playlist-${playlistId}`]: "delete",
+                    },
+                },
+            },
+        )
+    );
+
     getTrack = async (trackId) => (
         this.fetch(`/tracks/${trackId}`)
     );
@@ -164,7 +189,7 @@ class SpotifyDataFetcher {
             .join(",");
 
         return this.fetch(`/recommendations?seed_tracks=${shuffledTracks}`);
-    }
+    };
 
     getUserInfo = async () => {
         await this.getAccessToken();
@@ -183,7 +208,7 @@ class SpotifyDataFetcher {
                 topTracks: topTracks.data,
             })),
         );
-    }
+    };
 
     getTrackInfo = async (trackId) => {
         await this.getAccessToken();
@@ -196,7 +221,7 @@ class SpotifyDataFetcher {
                 audioAnalysis: audioAnalysis.data,
             })),
         );
-    }
+    };
 }
 
 export default SpotifyDataFetcher;

@@ -20,12 +20,15 @@ import withAuth from "../../hoc/withAuth";
 import Loader from "../../components/shared/Loader";
 import MenuContext from "../../context/MenuContext";
 import useDeleteFromPlaylist from "../../hooks/useDeleteFromPlaylist";
+import useMoveItemInPlaylist from "../../hooks/useMoveItemInPlaylist";
+import { immutableMove } from "../../utils/ArrayHelper";
 
 const PlaylistDetail = () => {
     const [playlist, setPlaylist] = useState(null);
     const shouldFetch = useRef(true);
     const dataFetcher = useContext(DataContext);
     const [deleteFromPlaylist] = useDeleteFromPlaylist();
+    const { moveUp, moveDown } = useMoveItemInPlaylist();
     const router = useRouter();
     const { id } = router.query;
 
@@ -47,13 +50,53 @@ const PlaylistDetail = () => {
         );
     }
 
-    const menuItems = (uri, playlistId) => ([
+    const menuItems = (uri, position) => ([
+        ...(position > 0 ? [
+            <IconButton
+                key="moveUp"
+                size="small"
+                onClick={() => (
+                    moveUp(playlist.id, playlist.snapshot_id, position, (newSnapshotId) => {
+                        setPlaylist((prev) => ({
+                            ...prev,
+                            snapshot_id: newSnapshotId,
+                            tracks: {
+                                ...prev.tracks,
+                                items: immutableMove(prev.tracks.items, position, position - 1),
+                            },
+                        }));
+                    })
+                )}
+            >
+                <BsArrowUpCircle />
+            </IconButton>,
+        ] : []),
+        ...(position < (playlist.tracks.total - 1) ? [
+            <IconButton
+                key="moveDown"
+                size="small"
+                onClick={() => (
+                    moveDown(playlist.id, playlist.snapshot_id, position, (newSnapshotId) => {
+                        setPlaylist((prev) => ({
+                            ...prev,
+                            snapshot_id: newSnapshotId,
+                            tracks: {
+                                ...prev.tracks,
+                                items: immutableMove(prev.tracks.items, position, position + 1),
+                            },
+                        }));
+                    })
+                )}
+            >
+                <BsArrowDownCircle />
+            </IconButton>,
+        ] : []),
         <IconButton
             aria-label="delete from playlist"
             key="delete"
             size="small"
             onClick={() => {
-                deleteFromPlaylist(uri, playlistId, () => {
+                deleteFromPlaylist(uri, playlist.id, () => {
                     setPlaylist((prev) => ({
                         ...prev,
                         tracks: {
@@ -67,12 +110,6 @@ const PlaylistDetail = () => {
         >
             <MdDelete />
         </IconButton>,
-        <IconButton key="moveUp" size="small">
-            <BsArrowUpCircle />
-        </IconButton>,
-        <IconButton key="moveDown" size="small">
-            <BsArrowDownCircle />
-        </IconButton>,
     ]);
 
     return (
@@ -85,10 +122,10 @@ const PlaylistDetail = () => {
                     </AppLink>
                 </Stack>
                 <Stack gap={3} flexGrow={1}>
-                    {playlist && playlist.tracks.items.map((item) => (
+                    {playlist && playlist.tracks.items.map((item, position) => (
                         <MenuContext.Provider
                             key={item.track.id}
-                            value={menuItems(item.track.uri, playlist.id)}
+                            value={menuItems(item.track.uri, position)}
                         >
                             <TrackItem
                                 size={SIZE_SMALL}

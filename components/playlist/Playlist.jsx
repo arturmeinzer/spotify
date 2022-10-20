@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Image from "../shared/Image";
 import { SIZE_BIG } from "../../constants/imageSizes";
-import { PROP_TYPE_IMAGES } from "../../constants/propTypes";
+import { PROP_TYPES_PLAYLIST } from "../../constants/propTypes";
 import AppLink from "../shared/AppLink";
 
 const Playlist = ({ playlist, size }) => (
@@ -22,15 +22,7 @@ const Playlist = ({ playlist, size }) => (
 );
 
 Playlist.propTypes = {
-    playlist: PropTypes.shape({
-        id: PropTypes.string,
-        images: PROP_TYPE_IMAGES,
-        name: PropTypes.string,
-        tracks: PropTypes.shape({
-            href: PropTypes.string,
-            total: PropTypes.number,
-        }),
-    }).isRequired,
+    playlist: PROP_TYPES_PLAYLIST.isRequired,
     size: PropTypes.string,
 };
 

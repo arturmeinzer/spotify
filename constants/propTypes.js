@@ -41,3 +41,14 @@ export const PROP_TYPES_ANALYSIS = PropTypes.shape({
     start: PropTypes.number,
     duration: PropTypes.number,
 });
+
+export const PROP_TYPES_PLAYLIST = PropTypes.shape({
+    id: PropTypes.string,
+    images: PROP_TYPE_IMAGES,
+    name: PropTypes.string,
+    snapshot_id: PropTypes.string,
+    tracks: PropTypes.shape({
+        href: PropTypes.string,
+        total: PropTypes.number,
+    }),
+});
