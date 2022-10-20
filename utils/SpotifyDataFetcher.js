@@ -67,21 +67,25 @@ class SpotifyDataFetcher {
     getHeaders = async () => {
         const accessToken = await this.getAccessToken();
         return {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-            },
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
         };
     }
 
-    fetch = async (url) => {
+    fetch = async (url, options = {}) => {
         const headers = await this.getHeaders();
-        return this.spotifyApi.get(url, headers);
+        return this.spotifyApi.get(url, { headers, ...options });
     }
 
-    post = async (url, data) => {
+    post = async (url, data, options = {}) => {
         const headers = await this.getHeaders();
-        return this.spotifyApi.post(url, data, headers);
+        return this.spotifyApi.post(url, data, { headers, ...options });
+    }
+
+    delete = async (url, options = {}) => {
+        const headers = await this.getHeaders();
+        console.log({ headers, ...options });
+        return this.spotifyApi.delete(url, { headers, ...options });
     }
 
     getUser = async () => (
@@ -105,11 +109,45 @@ class SpotifyDataFetcher {
     );
 
     getPlaylists = async () => (
-        this.fetch("/me/playlists")
+        this.fetch("/me/playlists", { id: "list-playlists" })
     );
 
     getPlaylist = async (playlistId) => (
-        this.fetch(`/playlists/${playlistId}`)
+        this.fetch(`/playlists/${playlistId}`, { id: `playlist-${playlistId}` })
+    );
+
+    addTrackToPlaylist = async (uri, playlistId) => (
+        this.post(
+            `/playlists/${playlistId}/tracks`,
+            {
+                uris: [uri],
+            },
+            {
+                cache: {
+                    update: {
+                        "list-playlists": "delete",
+                        [`playlist-${playlistId}`]: "delete",
+                    },
+                },
+            },
+        )
+    );
+
+    removeTrackFromPlaylist = async (uri, playlistId) => (
+        this.delete(
+            `/playlists/${playlistId}/tracks`,
+            {
+                data: {
+                    tracks: [{ uri }],
+                },
+                cache: {
+                    update: {
+                        "list-playlists": "delete",
+                        [`playlist-${playlistId}`]: "delete",
+                    },
+                },
+            },
+        )
     );
 
     getTrack = async (trackId) => (

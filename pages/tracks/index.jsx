@@ -36,7 +36,9 @@ const Tracks = () => {
                 <TimeRangeToggle onChange={setTimeRange} timeRange={timeRange} />
             </Header>
             <Stack gap={3}>
-                {trackItems.map((item) => <TrackItem key={item.id} track={item} />)}
+                {trackItems.map((item) => (
+                    <TrackItem key={item.id} track={item} />
+                ))}
             </Stack>
         </BaseLayout>
     );

@@ -16,10 +16,12 @@ import Image from "../../components/Image";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import { releaseDateToYear } from "../../utils/TimeConverter";
 import AudioAnalysis from "../../components/AudioAnalysis";
+import PlaylistModal from "../../components/PlaylistModal";
 
 const TrackDetails = () => {
     const shouldFetch = useRef(true);
     const [data, setData] = useState(null);
+    const [openModal, setOpenModal] = useState(true);
     const dataFetcher = useContext(DataContext);
     const router = useRouter();
     const { id } = router.query;
@@ -63,7 +65,12 @@ const TrackDetails = () => {
                         </Stack>
                     </Stack>
                     <Stack flexDirection="row">
-                        <Button color="success">Add To Playlist</Button>
+                        <Button color="success" onClick={() => setOpenModal(true)}>Add To Playlist</Button>
+                        <PlaylistModal
+                            open={openModal}
+                            setOpen={setOpenModal}
+                            uri={data.track.uri}
+                        />
                     </Stack>
                     <AudioAnalysis audioAnalysis={data.audioAnalysis} />
                 </Stack>

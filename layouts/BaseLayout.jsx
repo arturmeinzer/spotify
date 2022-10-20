@@ -20,11 +20,12 @@ const BaseLayout = ({ children, loading }) => {
 };
 
 BaseLayout.propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     loading: PropTypes.bool,
 };
 
 BaseLayout.defaultProps = {
+    children: null,
     loading: false,
 };
 

@@ -7,10 +7,10 @@ import { SIZE_BIG } from "../constants/imageSizes";
 import { PROP_TYPE_IMAGES } from "../constants/propTypes";
 import AppLink from "./AppLink";
 
-const Playlist = ({ playlist }) => (
+const Playlist = ({ playlist, size }) => (
     <AppLink href="/playlists/[id]" as={`/playlists/${playlist.id}`}>
         <Stack gap={1} textAlign="center">
-            <Image imagesArray={playlist.images} size={SIZE_BIG} />
+            <Image imagesArray={playlist.images} size={size} />
             <Box>{playlist.name}</Box>
             <Box
                 sx={{ color: (theme) => theme.palette.text.secondary }}
@@ -31,6 +31,11 @@ Playlist.propTypes = {
             total: PropTypes.number,
         }),
     }).isRequired,
+    size: PropTypes.string,
+};
+
+Playlist.defaultProps = {
+    size: SIZE_BIG,
 };
 
 export default Playlist;
