@@ -7,6 +7,7 @@ import React, {
 import { useRouter } from "next/router";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import withAuth from "../../hoc/withAuth";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
@@ -16,7 +17,7 @@ import Header from "../../components/shared/Header";
 
 const PlaylistRecommendations = () => {
     const [trackItems, setTrackItems] = useState([]);
-    const [playlistName, setPlaylistName] = useState("");
+    const [playlist, setPlaylist] = useState(null);
     const shouldFetch = useRef(true);
     const dataFetcher = useContext(DataContext);
     const router = useRouter();
@@ -26,22 +27,29 @@ const PlaylistRecommendations = () => {
         if (shouldFetch.current && typeof id !== "undefined") {
             shouldFetch.current = false;
             dataFetcher.getPlaylist(id).then((playlistResponse) => {
-                const { tracks: playlistTracks, name } = playlistResponse.data;
-                setPlaylistName(name);
-                const playlistTrackIds = playlistTracks.items.map((item) => item.track.id);
-                dataFetcher.getRecommendationsForTracks(playlistTrackIds).then((response) => {
-                    const { tracks } = response.data;
-                    setTrackItems(tracks);
-                });
+                setPlaylist(playlistResponse.data);
             });
         }
     }, [id, dataFetcher]);
 
+    useEffect(() => {
+        if (playlist && trackItems.length === 0) {
+            const playlistTrackIds = playlist.tracks.items.map((item) => item.track.id);
+            dataFetcher.getRecommendationsForTracks(playlistTrackIds).then((response) => {
+                const { tracks } = response.data;
+                setTrackItems(tracks);
+            });
+        }
+    }, [playlist, trackItems.length, dataFetcher]);
+
     return (
         <BaseLayout loading={trackItems.length === 0}>
-            <Header title={`Recommendations Based On ${playlistName}`}>
+            <Header title={`Recommendations Based On ${playlist?.name}`}>
                 <Button onClick={() => router.back()}>Back</Button>
             </Header>
+            <Box sx={{ marginBottom: "40px", textAlign: "center" }}>
+                <Button color="success" onClick={() => setTrackItems([])}>Load New</Button>
+            </Box>
             <Stack gap={3}>
                 {trackItems.map((item) => (
                     <TrackItem key={item.id} size={SIZE_SMALL} track={item} />
