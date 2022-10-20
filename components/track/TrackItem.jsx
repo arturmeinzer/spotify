@@ -2,13 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import IconButton from "@mui/material/IconButton";
+import { TbPlaylist } from "react-icons/tb";
 import { PROP_TYPE_TRACK } from "../../constants/propTypes";
 import { getHeight, getWidth } from "../../utils/ImageHelper";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Image from "../shared/Image";
 import { msToMinutes } from "../../utils/TimeConverter";
 import AppLink from "../shared/AppLink";
-import ContextMenu from "../shared/ContextMenu";
+import TrackActions from "./TrackActions";
+import PlaylistModal from "../playlist/PlaylistModal";
 
 const TrackItem = ({ track, size }) => (
     <AppLink href="/tracks/[id]" as={`/tracks/${track.id}`}>
@@ -35,7 +38,15 @@ const TrackItem = ({ track, size }) => (
             </Stack>
             <Stack gap={1} alignItems="flex-end" onClick={(e) => e.preventDefault()}>
                 {msToMinutes(track.duration_ms)}
-                <ContextMenu />
+                <TrackActions
+                    actions={[
+                        <PlaylistModal
+                            key="addPlaylist"
+                            uri={track.uri}
+                            button={<IconButton size="small"><TbPlaylist /></IconButton>}
+                        />,
+                    ]}
+                />
             </Stack>
         </Stack>
     </AppLink>

@@ -7,7 +7,8 @@ import React, {
 import { useRouter } from "next/router";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
+import IconButton from "@mui/material/IconButton";
+import { MdDelete } from "react-icons/md";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
 import Playlist from "../../components/playlist/Playlist";
@@ -46,8 +47,10 @@ const PlaylistDetail = () => {
     }
 
     const menuItems = (uri, playlistId) => ([
-        <MenuItem
+        <IconButton
+            aria-label="delete from playlist"
             key="delete"
+            size="small"
             onClick={() => {
                 dataFetcher.removeTrackFromPlaylist(uri, playlistId).then(() => {
                     alert.success("Track deleted from Playlist");
@@ -64,8 +67,8 @@ const PlaylistDetail = () => {
                 });
             }}
         >
-            Delete from Playlist
-        </MenuItem>,
+            <MdDelete />
+        </IconButton>,
     ]);
 
     return (
