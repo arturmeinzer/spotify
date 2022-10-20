@@ -17,6 +17,7 @@ import Image from "../../components/shared/Image";
 import PropertyHeader from "../../components/UI/PropertyHeader";
 import PropertyContent from "../../components/UI/PropertyContent";
 import DataContext from "../../context/DataContext";
+import BackButton from "../../components/shared/BackButton";
 
 const ArtistDetail = () => {
     const shouldFetch = useRef(true);
@@ -45,6 +46,7 @@ const ArtistDetail = () => {
 
     return (
         <BaseLayout>
+            <BackButton />
             <Container>
                 <Stack justifyContent="center" alignItems="center" gap={5}>
                     <Typography

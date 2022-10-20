@@ -14,6 +14,7 @@ import DataContext from "../../context/DataContext";
 import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Header from "../../components/shared/Header";
+import BackButton from "../../components/shared/BackButton";
 
 const PlaylistRecommendations = () => {
     const [trackItems, setTrackItems] = useState([]);
@@ -44,9 +45,8 @@ const PlaylistRecommendations = () => {
 
     return (
         <BaseLayout loading={trackItems.length === 0}>
-            <Header title={`Recommendations Based On ${playlist?.name}`}>
-                <Button onClick={() => router.back()}>Back</Button>
-            </Header>
+            <BackButton />
+            <Header title={`Recommendations Based On ${playlist?.name}`} />
             <Box sx={{ marginBottom: "40px", textAlign: "center" }}>
                 <Button color="success" onClick={() => setTrackItems([])}>Load New</Button>
             </Box>

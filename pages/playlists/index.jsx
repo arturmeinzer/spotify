@@ -21,8 +21,6 @@ const Playlists = () => {
         if (shouldFetch.current) {
             shouldFetch.current = false;
             dataFetcher.getPlaylists().then((response) => {
-                // eslint-disable-next-line no-console
-                console.log(response.data);
                 const { items } = response.data;
                 setPlaylistItems(items);
             });

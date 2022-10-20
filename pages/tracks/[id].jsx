@@ -17,6 +17,7 @@ import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import { releaseDateToYear } from "../../utils/TimeConverter";
 import AudioAnalysis from "../../components/track/AudioAnalysis";
 import PlaylistModal from "../../components/playlist/PlaylistModal";
+import BackButton from "../../components/shared/BackButton";
 
 const TrackDetails = () => {
     const shouldFetch = useRef(true);
@@ -45,6 +46,7 @@ const TrackDetails = () => {
         <BaseLayout loading={data === null}>
             {data && (
                 <Stack gap={3}>
+                    <BackButton />
                     <Stack
                         gap={3}
                         alignItems="center"

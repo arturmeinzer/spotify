@@ -22,6 +22,7 @@ import MenuContext from "../../context/MenuContext";
 import useDeleteFromPlaylist from "../../hooks/useDeleteFromPlaylist";
 import useMoveItemInPlaylist from "../../hooks/useMoveItemInPlaylist";
 import { immutableMove } from "../../utils/ArrayHelper";
+import BackButton from "../../components/shared/BackButton";
 
 const PlaylistDetail = () => {
     const [playlist, setPlaylist] = useState(null);
@@ -115,7 +116,8 @@ const PlaylistDetail = () => {
 
     return (
         <BaseLayout>
-            <Stack gap={5} sx={{ flexDirection: { xs: "column", md: "row" } }}>
+            <BackButton />
+            <Stack gap={5} sx={{ flexDirection: { xs: "column", md: "row" }, marginTop: "40px" }}>
                 <Stack gap={3} alignItems="center">
                     <Playlist playlist={playlist} />
                     <AppLink href="/recommendations/[id]" as={`/recommendations/${playlist.id}`}>
