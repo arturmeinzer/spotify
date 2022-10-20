@@ -9,6 +9,10 @@ import Modal from "@mui/material/Modal";
 import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import Slide from "@mui/material/Slide";
+import IconButton from "@mui/material/IconButton";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import Typography from "@mui/material/Typography";
 import DataContext from "../../context/DataContext";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import ModalContainer from "../UI/ModalContainer";
@@ -64,20 +68,31 @@ const PlaylistModal = ({ uri, button }) => {
                 open={open}
                 onClose={() => setOpen(false)}
             >
-                <ModalContainer>
-                    <Stack gap={2} sx={{ flexDirection: "row", flexWrap: "wrap" }}>
-                        {playlistItems.map((item) => (
-                            <Anchor key={item.id} onClick={() => addToPlaylist(item.id)}>
-                                <Stack gap={1} textAlign="center">
-                                    <Box>
-                                        <Image imagesArray={item.images} size={SIZE_MEDIUM} />
-                                    </Box>
-                                    <Box>{item.name}</Box>
-                                </Stack>
-                            </Anchor>
-                        ))}
-                    </Stack>
-                </ModalContainer>
+                <Slide in={open} direction="up">
+                    <ModalContainer>
+                        <Typography
+                            variant="h5"
+                            sx={{ fontWeight: "bold", textAlign: "center", marginBottom: "20px" }}
+                        >
+                            Add To Playlist
+                        </Typography>
+                        <IconButton sx={{ position: "absolute", right: "20px", top: "15px" }} onClick={() => setOpen(false)}>
+                            <IoMdCloseCircleOutline />
+                        </IconButton>
+                        <Stack gap={2} sx={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
+                            {playlistItems.map((item) => (
+                                <Anchor key={item.id} onClick={() => addToPlaylist(item.id)}>
+                                    <Stack gap={1} textAlign="center">
+                                        <Box>
+                                            <Image imagesArray={item.images} size={SIZE_MEDIUM} />
+                                        </Box>
+                                        <Box>{item.name}</Box>
+                                    </Stack>
+                                </Anchor>
+                            ))}
+                        </Stack>
+                    </ModalContainer>
+                </Slide>
             </Modal>
         </>
     );
