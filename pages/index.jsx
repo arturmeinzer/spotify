@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import CenterContainer from "../components/UI/CenterContainer";
-import Loader from "../components/Loader";
+import Loader from "../components/shared/Loader";
 
 const Home = () => {
     const [isAuth, setIsAuth] = useState(false);

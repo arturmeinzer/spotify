@@ -1,7 +1,7 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
-import { getHeight, getWidth } from "../utils/ImageHelper";
-import { SIZE_BIG } from "../constants/imageSizes";
+import { getHeight, getWidth } from "../../utils/ImageHelper";
+import { SIZE_BIG } from "../../constants/imageSizes";
 
 const AddPlaylist = () => (
     <Stack

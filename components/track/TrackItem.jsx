@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { PROP_TYPE_TRACK } from "../constants/propTypes";
-import { getHeight, getWidth } from "../utils/ImageHelper";
-import { SIZE_SMALL } from "../constants/imageSizes";
-import Image from "./Image";
-import { msToMinutes } from "../utils/TimeConverter";
-import AppLink from "./AppLink";
-import ContextMenu from "./ContextMenu";
+import { PROP_TYPE_TRACK } from "../../constants/propTypes";
+import { getHeight, getWidth } from "../../utils/ImageHelper";
+import { SIZE_SMALL } from "../../constants/imageSizes";
+import Image from "../shared/Image";
+import { msToMinutes } from "../../utils/TimeConverter";
+import AppLink from "../shared/AppLink";
+import ContextMenu from "../shared/ContextMenu";
 
 const TrackItem = ({ track, size }) => (
     <AppLink href="/tracks/[id]" as={`/tracks/${track.id}`}>

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
-import Alert from "../components/Alert";
+import Alert from "../components/shared/Alert";
 import { AlertProvider } from "../context/AlertContext";
 
 const theme = createTheme({

@@ -10,12 +10,12 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
-import Playlist from "../../components/Playlist";
-import TrackItem from "../../components/TrackItem";
+import Playlist from "../../components/playlist/Playlist";
+import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
-import AppLink from "../../components/AppLink";
+import AppLink from "../../components/shared/AppLink";
 import withAuth from "../../hoc/withAuth";
-import Loader from "../../components/Loader";
+import Loader from "../../components/shared/Loader";
 import MenuContext from "../../context/MenuContext";
 import AlertContext from "../../context/AlertContext";
 

@@ -6,11 +6,11 @@ import React, {
 } from "react";
 import Box from "@mui/material/Box";
 import BaseLayout from "../../layouts/BaseLayout";
-import Artist from "../../components/Artist";
-import Header from "../../components/Header";
+import Artist from "../../components/artist/Artist";
+import Header from "../../components/shared/Header";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
 import withAuth from "../../hoc/withAuth";
-import TimeRangeToggle from "../../components/TimeRangeToggle";
+import TimeRangeToggle from "../../components/shared/TimeRangeToggle";
 import DataContext from "../../context/DataContext";
 
 export const Artists = () => {

@@ -6,11 +6,11 @@ import React, {
 } from "react";
 import Stack from "@mui/material/Stack";
 import BaseLayout from "../../layouts/BaseLayout";
-import Header from "../../components/Header";
+import Header from "../../components/shared/Header";
 import withAuth from "../../hoc/withAuth";
-import Playlist from "../../components/Playlist";
+import Playlist from "../../components/playlist/Playlist";
 import DataContext from "../../context/DataContext";
-import AddPlaylist from "../../components/AddPlaylist";
+import AddPlaylist from "../../components/playlist/AddPlaylist";
 
 const Playlists = () => {
     const shouldFetch = useRef(true);

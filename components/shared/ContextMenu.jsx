@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import Menu from "@mui/material/Menu";
-import MenuContext from "../context/MenuContext";
+import MenuContext from "../../context/MenuContext";
 
 const ContextMenu = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);

@@ -12,11 +12,11 @@ import Button from "@mui/material/Button";
 import BaseLayout from "../../layouts/BaseLayout";
 import withAuth from "../../hoc/withAuth";
 import DataContext from "../../context/DataContext";
-import Image from "../../components/Image";
+import Image from "../../components/shared/Image";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import { releaseDateToYear } from "../../utils/TimeConverter";
-import AudioAnalysis from "../../components/AudioAnalysis";
-import PlaylistModal from "../../components/PlaylistModal";
+import AudioAnalysis from "../../components/track/AudioAnalysis";
+import PlaylistModal from "../../components/playlist/PlaylistModal";
 
 const TrackDetails = () => {
     const shouldFetch = useRef(true);

@@ -9,9 +9,9 @@ import Stack from "@mui/material/Stack";
 import withAuth from "../../hoc/withAuth";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
-import TrackItem from "../../components/TrackItem";
+import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
-import Header from "../../components/Header";
+import Header from "../../components/shared/Header";
 
 const PlaylistRecommendations = () => {
     const [trackItems, setTrackItems] = useState([]);

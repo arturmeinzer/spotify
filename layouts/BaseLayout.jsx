@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
-import Loader from "../components/Loader";
-import NavBar from "../components/NavBar";
+import Loader from "../components/shared/Loader";
+import NavBar from "../components/shared/NavBar";
 
 const BaseLayout = ({ children, loading }) => {
     if (loading) {

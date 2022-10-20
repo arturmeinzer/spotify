@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import AlertContext from "../context/AlertContext";
+import AlertContext from "../../context/AlertContext";
 
 const Alert = () => {
     const { alert } = useContext(AlertContext);

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import { PROP_TYPES_ANALYSIS } from "../constants/propTypes";
+import { PROP_TYPES_ANALYSIS } from "../../constants/propTypes";
 import AudioAnalysisItem from "./AudioAnalysisItem";
-import { secondsToMinutes } from "../utils/TimeConverter";
+import { secondsToMinutes } from "../../utils/TimeConverter";
 
 const translateKey = (key) => {
     switch (key) {

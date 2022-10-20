@@ -12,12 +12,12 @@ import { FaUserCircle } from "react-icons/fa";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import BaseLayout from "../layouts/BaseLayout";
 import withAuth from "../hoc/withAuth";
-import Artist from "../components/Artist";
+import Artist from "../components/artist/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
-import TrackItem from "../components/TrackItem";
-import Loader from "../components/Loader";
+import TrackItem from "../components/track/TrackItem";
+import Loader from "../components/shared/Loader";
 import DataContext from "../context/DataContext";
-import ProfileSubHeader from "../components/ProfileSubHeader";
+import ProfileSubHeader from "../components/profile/ProfileSubHeader";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);

@@ -9,12 +9,12 @@ import Modal from "@mui/material/Modal";
 import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import DataContext from "../context/DataContext";
-import { SIZE_MEDIUM } from "../constants/imageSizes";
-import ModalContainer from "./UI/ModalContainer";
-import Image from "./Image";
-import Anchor from "./UI/Anchor";
-import AlertContext from "../context/AlertContext";
+import DataContext from "../../context/DataContext";
+import { SIZE_MEDIUM } from "../../constants/imageSizes";
+import ModalContainer from "../UI/ModalContainer";
+import Image from "../shared/Image";
+import Anchor from "../UI/Anchor";
+import AlertContext from "../../context/AlertContext";
 
 const PlaylistModal = ({ uri, button }) => {
     const shouldFetch = useRef(true);

@@ -2,10 +2,10 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import Image from "./Image";
-import { SIZE_BIG } from "../constants/imageSizes";
-import { PROP_TYPE_IMAGES } from "../constants/propTypes";
-import AppLink from "./AppLink";
+import Image from "../shared/Image";
+import { SIZE_BIG } from "../../constants/imageSizes";
+import { PROP_TYPE_IMAGES } from "../../constants/propTypes";
+import AppLink from "../shared/AppLink";
 
 const Playlist = ({ playlist, size }) => (
     <AppLink href="/playlists/[id]" as={`/playlists/${playlist.id}`}>

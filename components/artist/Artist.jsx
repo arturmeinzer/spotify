@@ -2,11 +2,11 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
-import AppLink from "./AppLink";
-import { PROP_TYPE_ARTIST } from "../constants/propTypes";
-import { getWidth } from "../utils/ImageHelper";
-import { SIZE_MEDIUM } from "../constants/imageSizes";
-import Image from "./Image";
+import AppLink from "../shared/AppLink";
+import { PROP_TYPE_ARTIST } from "../../constants/propTypes";
+import { getWidth } from "../../utils/ImageHelper";
+import { SIZE_MEDIUM } from "../../constants/imageSizes";
+import Image from "../shared/Image";
 
 const Artist = ({ artist, size, direction }) => (
     <AppLink href="/artists/[id]" as={`/artists/${artist.id}`}>

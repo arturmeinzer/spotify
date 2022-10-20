@@ -6,10 +6,10 @@ import React, {
 } from "react";
 import Stack from "@mui/material/Stack";
 import BaseLayout from "../../layouts/BaseLayout";
-import Header from "../../components/Header";
-import TrackItem from "../../components/TrackItem";
+import Header from "../../components/shared/Header";
+import TrackItem from "../../components/track/TrackItem";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
-import TimeRangeToggle from "../../components/TimeRangeToggle";
+import TimeRangeToggle from "../../components/shared/TimeRangeToggle";
 import withAuth from "../../hoc/withAuth";
 import DataContext from "../../context/DataContext";
 

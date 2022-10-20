@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
-import Loader from "../components/Loader";
+import Loader from "../components/shared/Loader";
 
 export default (WrappedComponent) => (props) => {
     const shouldCheck = useRef(true);

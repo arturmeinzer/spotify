@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import { FaUserCircle } from "react-icons/fa";
 import { GiBackwardTime, GiGuitarHead } from "react-icons/gi";
 import { TbPlaylist } from "react-icons/tb";
-import NavBarLeft from "./UI/NavBarLeft";
-import NavBarBottom from "./UI/NavBarBottom";
+import NavBarLeft from "../UI/NavBarLeft";
+import NavBarBottom from "../UI/NavBarBottom";
 import NavLink from "./NavLink";
 
 const navLinks = [

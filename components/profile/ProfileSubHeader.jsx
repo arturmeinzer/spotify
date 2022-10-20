@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
-import AppLink from "./AppLink";
+import AppLink from "../shared/AppLink";
 
 const ProfileSubHeader = ({ href, title }) => (
     <Stack

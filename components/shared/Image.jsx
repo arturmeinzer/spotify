@@ -1,8 +1,8 @@
 import React from "react";
 import NextImage from "next/image";
 import PropTypes from "prop-types";
-import { findBestImage, getHeight, getWidth } from "../utils/ImageHelper";
-import { PROP_TYPE_IMAGES } from "../constants/propTypes";
+import { findBestImage, getHeight, getWidth } from "../../utils/ImageHelper";
+import { PROP_TYPE_IMAGES } from "../../constants/propTypes";
 
 const Image = ({ imagesArray, size, round }) => (
     <NextImage

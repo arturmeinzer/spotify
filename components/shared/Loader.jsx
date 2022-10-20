@@ -1,6 +1,6 @@
 import React from "react";
 import { Audio } from "react-loader-spinner";
-import CenterContainer from "./UI/CenterContainer";
+import CenterContainer from "../UI/CenterContainer";
 
 const Loader = () => (
     <CenterContainer>

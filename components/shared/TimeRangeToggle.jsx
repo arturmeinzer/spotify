@@ -6,7 +6,7 @@ import {
     TIME_RANGE_LONG_TERM,
     TIME_RANGE_MEDIUM_TERM,
     TIME_RANGE_SHORT_TERM,
-} from "../constants/timeRange";
+} from "../../constants/timeRange";
 
 const TimeRangeToggle = ({ timeRange, onChange }) => (
     <ToggleButtonGroup
