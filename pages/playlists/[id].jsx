@@ -120,9 +120,11 @@ const PlaylistDetail = () => {
             <Stack gap={5} sx={{ flexDirection: { xs: "column", md: "row" }, marginTop: "40px" }}>
                 <Stack gap={3} alignItems="center">
                     <Playlist playlist={playlist} />
-                    <AppLink href="/recommendations/[id]" as={`/recommendations/${playlist.id}`}>
-                        <Button color="success">Recommendations</Button>
-                    </AppLink>
+                    {playlist.tracks.items.length > 0 && (
+                        <AppLink href="/recommendations/[id]" as={`/recommendations/${playlist.id}`}>
+                            <Button color="success">Recommendations</Button>
+                        </AppLink>
+                    )}
                 </Stack>
                 <Stack gap={3} flexGrow={1}>
                     {playlist && playlist.tracks.items.map((item, position) => (

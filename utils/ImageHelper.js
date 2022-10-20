@@ -4,6 +4,10 @@ export const getHeight = (size) => IMAGE_SIZES[size].height;
 export const getWidth = (size) => IMAGE_SIZES[size].width;
 
 export const findBestImage = (imagesArray, size) => {
+    if (imagesArray.length === 0) {
+        return "";
+    }
+
     let bestImageUrl = imagesArray[0].url;
     if (imagesArray.length === 1) {
         return bestImageUrl;
