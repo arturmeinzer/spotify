@@ -50,6 +50,18 @@ const PlaylistDetail = () => {
         );
     }
 
+    const updatePlaylist = (items, snapshotId, remove = false) => {
+        setPlaylist((prev) => ({
+            ...prev,
+            snapshot_id: snapshotId || prev.snapshot_id,
+            tracks: {
+                ...prev.tracks,
+                total: remove ? prev.tracks.total - 1 : prev.tracks.total,
+                items,
+            },
+        }));
+    };
+
     const menuItems = (uri, position) => ([
         ...(position > 0 ? [
             <IconButton
@@ -57,14 +69,10 @@ const PlaylistDetail = () => {
                 size="small"
                 onClick={() => (
                     moveUp(playlist.id, playlist.snapshot_id, position, (newSnapshotId) => {
-                        setPlaylist((prev) => ({
-                            ...prev,
-                            snapshot_id: newSnapshotId,
-                            tracks: {
-                                ...prev.tracks,
-                                items: immutableMove(prev.tracks.items, position, position - 1),
-                            },
-                        }));
+                        updatePlaylist(
+                            immutableMove(playlist.tracks.items, position, position - 1),
+                            newSnapshotId,
+                        );
                     })
                 )}
             >
@@ -77,14 +85,10 @@ const PlaylistDetail = () => {
                 size="small"
                 onClick={() => (
                     moveDown(playlist.id, playlist.snapshot_id, position, (newSnapshotId) => {
-                        setPlaylist((prev) => ({
-                            ...prev,
-                            snapshot_id: newSnapshotId,
-                            tracks: {
-                                ...prev.tracks,
-                                items: immutableMove(prev.tracks.items, position, position + 1),
-                            },
-                        }));
+                        updatePlaylist(
+                            immutableMove(playlist.tracks.items, position, position + 1),
+                            newSnapshotId,
+                        );
                     })
                 )}
             >
@@ -97,14 +101,11 @@ const PlaylistDetail = () => {
             size="small"
             onClick={() => {
                 deleteFromPlaylist(uri, playlist.id, () => {
-                    setPlaylist((prev) => ({
-                        ...prev,
-                        tracks: {
-                            ...prev.tracks,
-                            total: (prev.tracks.total - 1),
-                            items: prev.tracks.items.filter((item) => item.track.uri !== uri),
-                        },
-                    }));
+                    updatePlaylist(
+                        playlist.tracks.items.filter((item) => item.track.uri !== uri),
+                        null,
+                        true,
+                    );
                 });
             }}
         >
