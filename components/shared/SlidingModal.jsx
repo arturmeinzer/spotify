@@ -18,7 +18,7 @@ const SlidingModal = ({
         open={open}
         onClose={onClose}
     >
-        <Slide in={open} direction="up">
+        <Slide in={open} direction="up" sx={{ overflow: "scroll" }}>
             <ModalContainer>
                 <Typography
                     variant="h5"

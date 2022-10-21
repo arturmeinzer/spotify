@@ -14,18 +14,21 @@ import AddPlaylist from "../../components/playlist/AddPlaylist";
 
 const Playlists = () => {
     const shouldFetch = useRef(true);
+    const [reload, setReload] = useState(false);
     const [playlistItems, setPlaylistItems] = useState([]);
     const dataFetcher = useContext(DataContext);
 
     useEffect(() => {
-        if (shouldFetch.current) {
+        if (shouldFetch.current || reload) {
+            if (reload) setPlaylistItems([]);
             shouldFetch.current = false;
             dataFetcher.getPlaylists().then((response) => {
                 const { items } = response.data;
                 setPlaylistItems(items);
+                setReload(false);
             });
         }
-    }, [dataFetcher]);
+    }, [dataFetcher, reload]);
 
     return (
         <BaseLayout loading={playlistItems.length === 0}>
@@ -36,8 +39,10 @@ const Playlists = () => {
                 flexWrap="wrap"
                 sx={{ justifyContent: { xs: "space-around", md: "start" } }}
             >
-                {playlistItems.map((item) => <Playlist key={item.id} playlist={item} />)}
-                <AddPlaylist />
+                {playlistItems.map((item) => (
+                    <Playlist key={item.id} playlist={item} setParentReload={setReload} />
+                ))}
+                <AddPlaylist setParentReload={setReload} />
             </Stack>
         </BaseLayout>
     );

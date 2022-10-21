@@ -13,16 +13,20 @@ import PlaylistForm from "./PlaylistForm";
 import DataContext from "../../context/DataContext";
 import AlertContext from "../../context/AlertContext";
 
-const Playlist = ({ playlist, size }) => {
+const Playlist = ({ playlist, size, setParentReload }) => {
     const [open, setOpen] = useState(false);
     const dataFetcher = useContext(DataContext);
     const alert = useContext(AlertContext);
 
     const handleUpdate = (data) => {
-        dataFetcher.updatePlaylist(playlist.id, data).then(() => {
+        const playlistData = { name: data.name };
+        if (data.description.length > 0) {
+            playlistData.description = data.description;
+        }
+        dataFetcher.updatePlaylist(playlist.id, playlistData).then(() => {
             alert.success("Playlist updated successfully");
             setOpen(false);
-            // TODO: update list of playlists somehow
+            setParentReload(true);
         }).catch((err) => {
             alert.error(err.message);
         });
@@ -67,6 +71,7 @@ const Playlist = ({ playlist, size }) => {
 
 Playlist.propTypes = {
     playlist: PROP_TYPES_PLAYLIST.isRequired,
+    setParentReload: PropTypes.func.isRequired,
     size: PropTypes.string,
 };
 
