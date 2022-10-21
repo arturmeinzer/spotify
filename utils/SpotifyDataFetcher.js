@@ -120,13 +120,10 @@ class SpotifyDataFetcher {
         this.fetch(`/playlists/${playlistId}`, { id: `playlist-${playlistId}` })
     );
 
-    createPlaylist = async (userId, name, description = "") => (
+    createPlaylist = async (userId, data) => (
         this.post(
             `/users/${userId}/playlists`,
-            {
-                name,
-                description,
-            },
+            data,
             {
                 cache: {
                     update: {
@@ -136,6 +133,20 @@ class SpotifyDataFetcher {
             },
         )
     );
+
+    updatePlaylist = async (playlistId, data) => (
+        this.put(
+            `/playlists/${playlistId}`,
+            data,
+            {
+                cache: {
+                    update: {
+                        "list-playlists": "delete",
+                    },
+                },
+            },
+        )
+    )
 
     addTrackToPlaylist = async (uri, playlistId) => (
         this.post(
