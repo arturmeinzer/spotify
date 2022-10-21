@@ -219,6 +219,10 @@ class SpotifyDataFetcher {
         return this.fetch(`/recommendations?seed_tracks=${shuffledTracks}`);
     };
 
+    getSearch = async (searchTerm, limit = 20) => (
+        this.fetch(`/search?q=${searchTerm}&type=track&limit=${limit}`)
+    );
+
     getUserInfo = async () => {
         await this.getAccessToken();
         return axios.all([

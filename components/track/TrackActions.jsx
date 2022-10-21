@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
-import MenuContext from "../../context/MenuContext";
+import TrackActionsContext from "../../context/TrackActionsContext";
 
 const TrackActions = ({ actions }) => {
-    const contextMenuItems = useContext(MenuContext);
+    const contextMenuItems = useContext(TrackActionsContext);
     const allActions = [
         ...contextMenuItems,
         ...actions,

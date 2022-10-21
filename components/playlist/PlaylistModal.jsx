@@ -13,15 +13,15 @@ import DataContext from "../../context/DataContext";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import Image from "../shared/Image";
 import Anchor from "../UI/Anchor";
-import AlertContext from "../../context/AlertContext";
 import SlidingModal from "../shared/SlidingModal";
+import useAddToPlaylist from "../../hooks/useAddToPlaylist";
 
 const PlaylistModal = ({ uri, button }) => {
     const shouldFetch = useRef(true);
     const [playlistItems, setPlaylistItems] = useState([]);
     const [open, setOpen] = useState(false);
     const dataFetcher = useContext(DataContext);
-    const alert = useContext(AlertContext);
+    const [addToPlaylist] = useAddToPlaylist();
 
     useEffect(() => {
         if (shouldFetch.current && open) {
@@ -33,37 +33,16 @@ const PlaylistModal = ({ uri, button }) => {
         }
     }, [open, dataFetcher]);
 
-    const addToPlaylist = (playlistId) => {
-        dataFetcher.getPlaylist(playlistId).then((playlistResponse) => {
-            const { tracks } = playlistResponse.data;
-            let alreadyInPlaylist = false;
-            for (let i = 0; i < tracks.items.length; i += 1) {
-                if (tracks.items[i].track.uri === uri) {
-                    alreadyInPlaylist = true;
-                    break;
-                }
-            }
-
-            if (alreadyInPlaylist) {
-                alert.error("Track is already in selected Playlist");
-            } else {
-                dataFetcher.addTrackToPlaylist(uri, playlistId).then(() => {
-                    alert.success("Successfully added to Playlist");
-                    setOpen(false);
-                }).catch((err) => {
-                    alert.error(err.message);
-                });
-            }
-        });
-    };
-
     return (
         <>
             {cloneElement(button, { onClick: () => setOpen(true) })}
             <SlidingModal onClose={() => setOpen(false)} title="Add To Playlist" open={open}>
                 <Stack gap={2} sx={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
                     {playlistItems.map((item) => (
-                        <Anchor key={item.id} onClick={() => addToPlaylist(item.id)}>
+                        <Anchor
+                            key={item.id}
+                            onClick={() => addToPlaylist(item.id, uri, () => setOpen(false))}
+                        >
                             <Stack gap={1} textAlign="center">
                                 <Box>
                                     <Image imagesArray={item.images} size={SIZE_MEDIUM} />

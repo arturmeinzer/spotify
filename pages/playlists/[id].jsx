@@ -18,7 +18,7 @@ import { SIZE_SMALL } from "../../constants/imageSizes";
 import AppLink from "../../components/shared/AppLink";
 import withAuth from "../../hoc/withAuth";
 import Loader from "../../components/shared/Loader";
-import MenuContext from "../../context/MenuContext";
+import TrackActionsContext from "../../context/TrackActionsContext";
 import useDeleteFromPlaylist from "../../hooks/useDeleteFromPlaylist";
 import useMoveItemInPlaylist from "../../hooks/useMoveItemInPlaylist";
 import { immutableMove } from "../../utils/ArrayHelper";
@@ -128,7 +128,7 @@ const PlaylistDetail = () => {
                 </Stack>
                 <Stack gap={3} flexGrow={1}>
                     {playlist && playlist.tracks.items.map((item, position) => (
-                        <MenuContext.Provider
+                        <TrackActionsContext.Provider
                             key={item.track.id}
                             value={menuItems(item.track.uri, position)}
                         >
@@ -136,7 +136,7 @@ const PlaylistDetail = () => {
                                 size={SIZE_SMALL}
                                 track={item.track}
                             />
-                        </MenuContext.Provider>
+                        </TrackActionsContext.Provider>
                     ))}
                 </Stack>
             </Stack>

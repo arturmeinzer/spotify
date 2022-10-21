@@ -24,10 +24,9 @@ const Playlist = ({ playlist, size }) => (
                 sx={{ position: "absolute", right: 0, bottom: "30px" }}
                 onClick={(e) => e.preventDefault()}
             >
-                <SearchModal />
+                <SearchModal playlistId={playlist.id} />
                 <PlaylistFormModal playlist={playlist} />
             </Stack>
-
         </Stack>
     </AppLink>
 );
