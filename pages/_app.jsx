@@ -27,7 +27,7 @@ const theme = createTheme({
         MuiIconButton: {
             styleOverrides: {
                 root: {
-                    border: `1px solid ${grey[800]}`,
+                    border: `1px solid ${grey[700]}`,
                 },
             },
         },
