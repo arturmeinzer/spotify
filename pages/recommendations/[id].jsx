@@ -29,7 +29,7 @@ const PlaylistRecommendations = () => {
             shouldFetch.current = false;
             dataFetcher.getPlaylist(id).then((playlistResponse) => {
                 setPlaylist(playlistResponse.data);
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher, router]);
 

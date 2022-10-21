@@ -32,7 +32,7 @@ const ArtistDetail = () => {
             dataFetcher.getArtist(id).then((response) => {
                 setArtist(response.data);
                 shouldFetch.current = true;
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher, router]);
 

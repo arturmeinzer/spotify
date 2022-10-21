@@ -21,13 +21,13 @@ const Playlists = () => {
 
     useEffect(() => {
         if (shouldFetch.current || reload) {
-            if (reload) setPlaylistItems([]);
             shouldFetch.current = false;
+            if (reload) setPlaylistItems([]);
             dataFetcher.getPlaylists().then((response) => {
                 const { items } = response.data;
                 setPlaylistItems(items);
                 setReload(false);
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher, reload]);
 

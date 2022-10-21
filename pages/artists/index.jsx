@@ -26,7 +26,7 @@ export const Artists = () => {
                 const { items } = response.data;
                 setArtistItems(items);
                 shouldFetch.current = true;
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher, timeRange]);
 

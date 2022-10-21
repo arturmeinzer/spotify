@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import { AiOutlinePlus } from "react-icons/ai";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { OutlinedInput } from "@mui/material";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,6 @@ import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
 
 const SearchModal = ({ playlistId }) => {
     const [open, setOpen] = useState(false);
-    const [addedItems, setAddedItems] = useState(false);
     const [trackItems, setTrackItems] = useState([]);
     const dataFetcher = useContext(DataContext);
     const [addToPlaylist] = useAddToPlaylist();
@@ -34,7 +33,7 @@ const SearchModal = ({ playlistId }) => {
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            if (watchSearchTerm.length > 3) {
+            if (watchSearchTerm.length >= 4) {
                 dataFetcher.getSearch(watchSearchTerm).then((response) => {
                     if (response?.data?.tracks?.items) {
                         setTrackItems(response.data.tracks.items);
@@ -42,27 +41,26 @@ const SearchModal = ({ playlistId }) => {
                         setTrackItems([]);
                     }
                 });
+            } else if (trackItems.length > 0) {
+                setTrackItems([]);
             }
         }, 1000);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [watchSearchTerm, dataFetcher]);
+    }, [watchSearchTerm, dataFetcher, trackItems.length]);
 
     const handleClose = () => {
         setOpen(false);
-        if (addedItems) {
-            setReloadOverview(true);
-        }
+        setReloadOverview(true);
     };
 
-    const renderActions = (uri, callback) => [
+    const renderActions = (uri) => [
         <IconButton
             key="AddToCurrentPlaylist"
             size="small"
             onClick={() => addToPlaylist(
                 playlistId,
                 uri,
-                callback,
             )}
         >
             <AiOutlinePlus />
@@ -91,9 +89,10 @@ const SearchModal = ({ playlistId }) => {
                     <Stack gap={3}>
                         {trackItems.map((item) => (
                             <TrackActionsContext.Provider
-                                value={renderActions(item.uri, () => setAddedItems(true))}
+                                key={item.id}
+                                value={renderActions(item.uri)}
                             >
-                                <TrackItem key={item.id} track={item} size={SIZE_SMALL} />
+                                <TrackItem track={item} size={SIZE_SMALL} />
                             </TrackActionsContext.Provider>
                         ))}
                     </Stack>

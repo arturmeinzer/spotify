@@ -1,8 +1,9 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 import { setupCache } from "axios-cache-interceptor";
 import axios from "axios";
 import PropTypes from "prop-types";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
+import AlertContext from "./AlertContext";
 
 const AxiosSpotifyInstance = setupCache(
     axios.create({
@@ -21,11 +22,16 @@ const spotifyDataFetcher = new SpotifyDataFetcher(
 );
 const DataContext = createContext(null);
 
-const DataProvider = ({ children }) => (
-    <DataContext.Provider value={spotifyDataFetcher}>
-        {children}
-    </DataContext.Provider>
-);
+const DataProvider = ({ children }) => {
+    const alert = useContext(AlertContext);
+    spotifyDataFetcher.setAlert(alert);
+
+    return (
+        <DataContext.Provider value={spotifyDataFetcher}>
+            {children}
+        </DataContext.Provider>
+    );
+}
 
 DataProvider.propTypes = {
     children: PropTypes.node.isRequired,

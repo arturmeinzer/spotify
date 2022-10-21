@@ -34,12 +34,8 @@ const TrackDetails = () => {
                     track: response.track,
                     audioAnalysis: response.audioAnalysis,
                 });
-            });
+            }).catch(() => {});
         }
-
-        return () => {
-            shouldFetch.current = true;
-        };
     }, [dataFetcher, router]);
 
     return (

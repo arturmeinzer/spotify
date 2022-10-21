@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
+import { grey } from "@mui/material/colors";
 import Alert from "../components/shared/Alert";
 import { AlertProvider } from "../context/AlertContext";
 import { DataProvider } from "../context/DataContext";
@@ -20,6 +21,13 @@ const theme = createTheme({
                     borderRadius: "50px",
                     padding: "10px 30px",
                     fontWeight: "bold",
+                },
+            },
+        },
+        MuiIconButton: {
+            styleOverrides: {
+                root: {
+                    border: `1px solid ${grey[800]}`,
                 },
             },
         },

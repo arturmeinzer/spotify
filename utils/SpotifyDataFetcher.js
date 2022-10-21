@@ -11,6 +11,11 @@ class SpotifyDataFetcher {
     constructor(axiosSpotify, axiosLocal) {
         this.spotifyApi = axiosSpotify;
         this.localApi = axiosLocal;
+        this.alert = null;
+    }
+
+    setAlert(alert) {
+        this.alert = alert;
     }
 
     setTokenTimestamp = () => {
@@ -41,8 +46,7 @@ class SpotifyDataFetcher {
             const { accessToken } = data;
             this.setLocalAccessToken(accessToken);
         } catch (e) {
-            // eslint-disable-next-line no-console
-            console.error(e);
+            this.alert.error(e.messages);
         }
     };
 
@@ -51,7 +55,7 @@ class SpotifyDataFetcher {
 
         if (timeRemaining > SPOTIFY_TOKEN_EXPIRATION_TIME) {
             // eslint-disable-next-line no-console
-            console.info("Access token has expired, refreshing...");
+            this.alert.info("Access token has expired, refreshing...");
             await this.refreshAccessToken();
         }
 
@@ -74,22 +78,42 @@ class SpotifyDataFetcher {
 
     fetch = async (url, options = {}) => {
         const headers = await this.getHeaders();
-        return this.spotifyApi.get(url, { headers, ...options });
+        try {
+            return await this.spotifyApi.get(url, { headers, ...options });
+        } catch (e) {
+            this.alert.error(e.message);
+            return {};
+        }
     };
 
     post = async (url, data, options = {}) => {
         const headers = await this.getHeaders();
-        return this.spotifyApi.post(url, data, { headers, ...options });
+        try {
+            return await this.spotifyApi.post(url, data, { headers, ...options });
+        } catch (e) {
+            this.alert.error(e.message);
+            return {};
+        }
     };
 
     delete = async (url, options) => {
         const headers = await this.getHeaders();
-        return this.spotifyApi.delete(url, { headers, ...options });
+        try {
+            return await this.spotifyApi.delete(url, { headers, ...options });
+        } catch (e) {
+            this.alert.error(e.message);
+            return {};
+        }
     };
 
     put = async (url, data, options) => {
         const headers = await this.getHeaders();
-        return this.spotifyApi.put(url, data, { headers, ...options });
+        try {
+            return await this.spotifyApi.put(url, data, { headers, ...options });
+        } catch (e) {
+            this.alert.error(e.message);
+            return {};
+        }
     };
 
     getUser = async () => (

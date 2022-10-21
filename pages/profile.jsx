@@ -35,7 +35,7 @@ const Profile = () => {
                     topArtists,
                     topTracks,
                 });
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher]);
 

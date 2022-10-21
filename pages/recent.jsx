@@ -23,7 +23,7 @@ const Recent = () => {
                 const { items } = response.data;
                 setRecentItems(items);
                 shouldFetch.current = true;
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher]);
 

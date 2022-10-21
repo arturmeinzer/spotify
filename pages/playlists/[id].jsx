@@ -39,7 +39,7 @@ const PlaylistDetail = () => {
             dataFetcher.getPlaylist(id).then((response) => {
                 setPlaylist(response.data);
                 shouldFetch.current = true;
-            });
+            }).catch(() => {});
         }
     }, [dataFetcher, router]);
 

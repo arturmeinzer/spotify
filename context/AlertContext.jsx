@@ -21,6 +21,7 @@ const AlertProvider = ({ children }) => {
         alert,
         success: (message, timeout) => handleAlert("success", message, timeout),
         error: (message, timeout) => handleAlert("error", message, timeout),
+        info: (message, timeout) => handleAlert("info", message, timeout),
     }), [alert]);
 
     return (

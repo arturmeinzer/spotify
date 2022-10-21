@@ -26,7 +26,7 @@ const Tracks = () => {
                 const { items } = response.data;
                 setTrackItems(items);
                 shouldFetch.current = true;
-            });
+            }).catch(() => {});
         }
     }, [timeRange, dataFetcher]);
 
