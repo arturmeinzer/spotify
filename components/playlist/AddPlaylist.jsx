@@ -1,17 +1,18 @@
 import React, { useContext, useState } from "react";
 import Stack from "@mui/material/Stack";
-import PropTypes from "prop-types";
 import { getHeight, getWidth } from "../../utils/ImageHelper";
 import { SIZE_BIG } from "../../constants/imageSizes";
 import SlidingModal from "../shared/SlidingModal";
 import AlertContext from "../../context/AlertContext";
 import DataContext from "../../context/DataContext";
 import PlaylistForm from "./PlaylistForm";
+import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
 
-const AddPlaylist = ({ setParentReload }) => {
+const AddPlaylist = () => {
     const [open, setOpen] = useState(false);
     const alert = useContext(AlertContext);
     const dataFetcher = useContext(DataContext);
+    const setReload = useContext(PlaylistOverviewContext);
 
     const handleCreate = async (data) => {
         try {
@@ -25,7 +26,7 @@ const AddPlaylist = ({ setParentReload }) => {
             dataFetcher.createPlaylist(id, playlistData).then(() => {
                 alert.success("Playlist created successfully");
                 setOpen(false);
-                setParentReload(true);
+                setReload(true);
             });
         } catch (err) {
             alert.error(err.message);
@@ -57,10 +58,6 @@ const AddPlaylist = ({ setParentReload }) => {
             </SlidingModal>
         </>
     );
-};
-
-AddPlaylist.propTypes = {
-    setParentReload: PropTypes.func.isRequired,
 };
 
 export default AddPlaylist;

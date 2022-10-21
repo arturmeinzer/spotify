@@ -11,6 +11,7 @@ import withAuth from "../../hoc/withAuth";
 import Playlist from "../../components/playlist/Playlist";
 import DataContext from "../../context/DataContext";
 import AddPlaylist from "../../components/playlist/AddPlaylist";
+import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
 
 const Playlists = () => {
     const shouldFetch = useRef(true);
@@ -33,17 +34,19 @@ const Playlists = () => {
     return (
         <BaseLayout loading={playlistItems.length === 0}>
             <Header title="Playlists" />
-            <Stack
-                flexDirection="row"
-                gap={3}
-                flexWrap="wrap"
-                sx={{ justifyContent: { xs: "space-around", md: "start" } }}
-            >
-                {playlistItems.map((item) => (
-                    <Playlist key={item.id} playlist={item} setParentReload={setReload} />
-                ))}
-                <AddPlaylist setParentReload={setReload} />
-            </Stack>
+            <PlaylistOverviewContext.Provider value={setReload}>
+                <Stack
+                    flexDirection="row"
+                    gap={3}
+                    flexWrap="wrap"
+                    sx={{ justifyContent: { xs: "space-around", md: "start" } }}
+                >
+                    {playlistItems.map((item) => (
+                        <Playlist key={item.id} playlist={item} />
+                    ))}
+                    <AddPlaylist />
+                </Stack>
+            </PlaylistOverviewContext.Provider>
         </BaseLayout>
     );
 };
