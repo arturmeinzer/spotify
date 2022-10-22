@@ -1,9 +1,5 @@
-import React, {
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
@@ -15,42 +11,18 @@ import withAuth from "../hoc/withAuth";
 import Artist from "../components/artist/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
 import TrackItem from "../components/track/TrackItem";
-import Loader from "../components/shared/Loader";
 import DataContext from "../context/DataContext";
 import ProfileSubHeader from "../components/profile/ProfileSubHeader";
 
 const Profile = () => {
-    const [profileData, setProfileData] = useState(null);
-    const shouldFetch = useRef(true);
     const router = useRouter();
     const dataFetcher = useContext(DataContext);
-
-    useEffect(() => {
-        if (shouldFetch.current) {
-            shouldFetch.current = false;
-            dataFetcher.getUserInfo().then((response) => {
-                const { user, topArtists, topTracks } = response;
-                setProfileData({
-                    user,
-                    topArtists,
-                    topTracks,
-                });
-            }).catch(() => {});
-        }
-    }, [dataFetcher]);
+    const { data: profileData } = useQuery("profile", dataFetcher.getUserInfo);
 
     const onLogout = () => {
         SpotifyDataFetcher.logout();
         router.push("/");
     };
-
-    if (profileData === null) {
-        return (
-            <BaseLayout>
-                <Loader />
-            </BaseLayout>
-        );
-    }
 
     return (
         <BaseLayout>

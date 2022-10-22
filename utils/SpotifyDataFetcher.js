@@ -79,10 +79,8 @@ class SpotifyDataFetcher {
     fetch = async (url, options = {}) => {
         const headers = await this.getHeaders();
         try {
-            return await this.spotifyApi.get(url, { headers, ...options });
+            return await this.spotifyApi.get(url, { headers, ...options }).then((res) => res.data);
         } catch (e) {
-            console.log(e.message);
-            console.log("error function", this.alert.error);
             this.alert.error(e.message);
             return {};
         }
@@ -261,9 +259,9 @@ class SpotifyDataFetcher {
                 topArtists,
                 topTracks,
             ) => ({
-                user: user.data,
-                topArtists: topArtists.data,
-                topTracks: topTracks.data,
+                user,
+                topArtists,
+                topTracks,
             })),
         );
     };
@@ -275,8 +273,8 @@ class SpotifyDataFetcher {
             this.getTrackAudioAnalysis(trackId),
         ]).then(
             axios.spread((track, audioAnalysis) => ({
-                track: track.data,
-                audioAnalysis: audioAnalysis.data,
+                track,
+                audioAnalysis,
             })),
         );
     };

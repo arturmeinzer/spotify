@@ -1,14 +1,10 @@
-import React, {
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-import { useRouter } from "next/router";
+import React, { useContext } from "react";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { useQuery } from "react-query";
+import PropTypes from "prop-types";
 import BaseLayout from "../../layouts/BaseLayout";
 import withAuth from "../../hoc/withAuth";
 import DataContext from "../../context/DataContext";
@@ -19,28 +15,13 @@ import AudioAnalysis from "../../components/track/AudioAnalysis";
 import PlaylistModal from "../../components/playlist/PlaylistModal";
 import BackButton from "../../components/shared/BackButton";
 
-const TrackDetails = () => {
-    const shouldFetch = useRef(true);
-    const [data, setData] = useState(null);
+const TrackDetails = ({ id }) => {
     const dataFetcher = useContext(DataContext);
-    const router = useRouter();
-
-    useEffect(() => {
-        if (shouldFetch.current && router.isReady) {
-            const { id } = router.query;
-            shouldFetch.current = false;
-            dataFetcher.getTrackInfo(id).then((response) => {
-                setData({
-                    track: response.track,
-                    audioAnalysis: response.audioAnalysis,
-                });
-            }).catch(() => {});
-        }
-    }, [dataFetcher, router]);
+    const { data } = useQuery(`track-${id}`, () => dataFetcher.getTrackInfo(id));
 
     return (
-        <BaseLayout loading={data === null}>
-            {data && (
+        <BaseLayout>
+            {data && data.track && (
                 <Stack gap={3}>
                     <BackButton />
                     <Stack
@@ -73,5 +54,17 @@ const TrackDetails = () => {
         </BaseLayout>
     );
 };
+
+TrackDetails.propTypes = {
+    id: PropTypes.string.isRequired,
+};
+
+export async function getServerSideProps({ query }) {
+    return {
+        props: {
+            id: query.id,
+        },
+    };
+}
 
 export default withAuth(TrackDetails);

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
-import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
 import CenterContainer from "../components/UI/CenterContainer";
 import Loader from "../components/shared/Loader";
+import DataContext from "../context/DataContext";
 
 const Home = () => {
     const [isAuth, setIsAuth] = useState(false);
+    const dataFetcher = useContext(DataContext);
     const router = useRouter();
     const { query } = router;
 
     useEffect(() => {
-        const dataFetcher = new SpotifyDataFetcher();
         if (dataFetcher.hasLocalAccessToken()) {
             setIsAuth(true);
             return;
@@ -25,7 +25,7 @@ const Home = () => {
             }
             setIsAuth(true);
         }
-    }, [query, router]);
+    }, [query, router, dataFetcher]);
 
     useEffect(() => {
         if (isAuth) {

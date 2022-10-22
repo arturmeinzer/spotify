@@ -1,17 +1,12 @@
-import React, {
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import PropTypes from "prop-types";
 import BaseLayout from "../../layouts/BaseLayout";
 import withAuth from "../../hoc/withAuth";
-import Loader from "../../components/shared/Loader";
 import { SIZE_BIG } from "../../constants/imageSizes";
 import Image from "../../components/shared/Image";
 import PropertyHeader from "../../components/UI/PropertyHeader";
@@ -19,30 +14,9 @@ import PropertyContent from "../../components/UI/PropertyContent";
 import DataContext from "../../context/DataContext";
 import BackButton from "../../components/shared/BackButton";
 
-const ArtistDetail = () => {
-    const shouldFetch = useRef(true);
-    const [artist, setArtist] = useState(null);
+const ArtistDetail = ({ id }) => {
     const dataFetcher = useContext(DataContext);
-    const router = useRouter();
-
-    useEffect(() => {
-        if (shouldFetch.current && router.isReady) {
-            const { id } = router.query;
-            shouldFetch.current = false;
-            dataFetcher.getArtist(id).then((response) => {
-                setArtist(response.data);
-                shouldFetch.current = true;
-            }).catch(() => {});
-        }
-    }, [dataFetcher, router]);
-
-    if (!artist) {
-        return (
-            <BaseLayout>
-                <Loader />
-            </BaseLayout>
-        );
-    }
+    const { data: artist } = useQuery(`artist-${id}`, () => dataFetcher.getArtist(id));
 
     return (
         <BaseLayout>
@@ -96,5 +70,17 @@ const ArtistDetail = () => {
         </BaseLayout>
     );
 };
+
+ArtistDetail.propTypes = {
+    id: PropTypes.string.isRequired,
+};
+
+export async function getServerSideProps({ query }) {
+    return {
+        props: {
+            id: query.id,
+        },
+    };
+}
 
 export default withAuth(ArtistDetail);

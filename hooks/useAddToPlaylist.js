@@ -8,7 +8,7 @@ const useAddToPlaylist = () => {
 
     const addToPlaylist = (playlistId, uri, callback) => {
         dataFetcher.getPlaylist(playlistId).then((playlistResponse) => {
-            const { tracks } = playlistResponse.data;
+            const { tracks } = playlistResponse;
             let alreadyInPlaylist = false;
             for (let i = 0; i < tracks.items.length; i += 1) {
                 if (tracks.items[i].track.uri === uri) {

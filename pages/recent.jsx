@@ -1,9 +1,5 @@
-import React, {
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
 import Stack from "@mui/material/Stack";
 import BaseLayout from "../layouts/BaseLayout";
 import Header from "../components/shared/Header";
@@ -12,26 +8,16 @@ import withAuth from "../hoc/withAuth";
 import DataContext from "../context/DataContext";
 
 const Recent = () => {
-    const shouldFetch = useRef(true);
-    const [recentItems, setRecentItems] = useState([]);
     const dataFetcher = useContext(DataContext);
-
-    useEffect(() => {
-        if (shouldFetch.current) {
-            shouldFetch.current = false;
-            dataFetcher.getRecentlyPlayed().then((response) => {
-                const { items } = response.data;
-                setRecentItems(items);
-                shouldFetch.current = true;
-            }).catch(() => {});
-        }
-    }, [dataFetcher]);
+    const { data } = useQuery("recentlyPlayed", dataFetcher.getRecentlyPlayed);
 
     return (
-        <BaseLayout loading={recentItems.length === 0}>
+        <BaseLayout>
             <Header title="Recently Played Tracks" />
             <Stack gap={3}>
-                {recentItems.map((item) => <TrackItem key={item.played_at} track={item.track} />)}
+                {data?.items?.map((item) => (
+                    <TrackItem key={item.played_at} track={item.track} />
+                ))}
             </Stack>
         </BaseLayout>
     );

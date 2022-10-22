@@ -1,10 +1,9 @@
 import React, {
     useContext,
-    useEffect,
     useRef,
-    useState,
 } from "react";
 import Stack from "@mui/material/Stack";
+import { useQuery } from "react-query";
 import BaseLayout from "../../layouts/BaseLayout";
 import Header from "../../components/shared/Header";
 import TrackItem from "../../components/track/TrackItem";
@@ -14,29 +13,22 @@ import withAuth from "../../hoc/withAuth";
 import DataContext from "../../context/DataContext";
 
 const Tracks = () => {
-    const shouldFetch = useRef(true);
-    const [trackItems, setTrackItems] = useState([]);
-    const [timeRange, setTimeRange] = useState(TIME_RANGE_LONG_TERM);
+    const timeRange = useRef(TIME_RANGE_LONG_TERM);
     const dataFetcher = useContext(DataContext);
+    const { data, refetch } = useQuery(["tracks"], () => dataFetcher.getTopTracks(timeRange.current));
 
-    useEffect(() => {
-        if (shouldFetch.current) {
-            shouldFetch.current = false;
-            dataFetcher.getTopTracks(timeRange).then((response) => {
-                const { items } = response.data;
-                setTrackItems(items);
-                shouldFetch.current = true;
-            }).catch(() => {});
-        }
-    }, [timeRange, dataFetcher]);
+    const handleToggle = (newTimeRange) => {
+        timeRange.current = newTimeRange;
+        refetch();
+    };
 
     return (
-        <BaseLayout loading={trackItems.length === 0}>
+        <BaseLayout>
             <Header title="Top Tracks">
-                <TimeRangeToggle onChange={setTimeRange} timeRange={timeRange} />
+                <TimeRangeToggle onChange={handleToggle} timeRange={timeRange.current} />
             </Header>
             <Stack gap={3}>
-                {trackItems.map((item) => (
+                {data?.items?.map((item) => (
                     <TrackItem key={item.id} track={item} />
                 ))}
             </Stack>

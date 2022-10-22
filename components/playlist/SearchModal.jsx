@@ -35,8 +35,8 @@ const SearchModal = ({ playlistId }) => {
         const delayDebounceFn = setTimeout(() => {
             if (watchSearchTerm.length >= 4) {
                 dataFetcher.getSearch(watchSearchTerm).then((response) => {
-                    if (response?.data?.tracks?.items) {
-                        setTrackItems(response.data.tracks.items);
+                    if (response?.tracks?.items) {
+                        setTrackItems(response.tracks.items);
                     } else {
                         setTrackItems([]);
                     }

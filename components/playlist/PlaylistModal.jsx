@@ -1,10 +1,9 @@
 import React, {
     cloneElement,
     useContext,
-    useEffect,
-    useRef,
     useState,
 } from "react";
+import { useQuery } from "react-query";
 import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -16,28 +15,17 @@ import SlidingModal from "../shared/SlidingModal";
 import useAddToPlaylist from "../../hooks/useAddToPlaylist";
 
 const PlaylistModal = ({ uri, button }) => {
-    const shouldFetch = useRef(true);
-    const [playlistItems, setPlaylistItems] = useState([]);
     const [open, setOpen] = useState(false);
     const dataFetcher = useContext(DataContext);
     const [addToPlaylist] = useAddToPlaylist();
-
-    useEffect(() => {
-        if (shouldFetch.current && open) {
-            shouldFetch.current = false;
-            dataFetcher.getPlaylists().then((response) => {
-                const { items } = response.data;
-                setPlaylistItems(items);
-            });
-        }
-    }, [open, dataFetcher]);
+    const { data } = useQuery("playlists", dataFetcher.getPlaylists);
 
     return (
         <>
             {cloneElement(button, { onClick: () => setOpen(true) })}
             <SlidingModal onClose={() => setOpen(false)} title="Add To Playlist" open={open}>
                 <Stack gap={2} sx={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
-                    {playlistItems.map((item) => (
+                    {data.items.map((item) => (
                         <Anchor
                             key={item.id}
                             onClick={() => addToPlaylist(item.id, uri, () => setOpen(false))}
