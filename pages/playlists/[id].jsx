@@ -2,12 +2,13 @@ import React, {
     useContext,
 } from "react";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { MdDelete } from "react-icons/md";
 import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
-import PropTypes from "prop-types";
 import BaseLayout from "../../layouts/BaseLayout";
 import DataContext from "../../context/DataContext";
 import Playlist from "../../components/playlist/Playlist";
@@ -19,7 +20,6 @@ import TrackActionsContext from "../../context/TrackActionsContext";
 import useDeleteFromPlaylist from "../../hooks/useDeleteFromPlaylist";
 import useMoveItemInPlaylist from "../../hooks/useMoveItemInPlaylist";
 import BackButton from "../../components/shared/BackButton";
-import { motion } from "framer-motion";
 
 const PlaylistDetail = ({ id }) => {
     const dataFetcher = useContext(DataContext);
