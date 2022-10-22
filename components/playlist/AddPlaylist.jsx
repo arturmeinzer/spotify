@@ -10,7 +10,7 @@ import useAlertStore from "../../store/useAlertStore";
 
 const AddPlaylist = () => {
     const [open, setOpen] = useState(false);
-    const success = useAlertStore((state) => state.success);
+    const alert = useAlertStore((state) => ({ success: state.success, error: state.error }));
     const dataFetcher = useContext(DataContext);
     const setReload = useContext(PlaylistOverviewContext);
 
@@ -24,7 +24,7 @@ const AddPlaylist = () => {
             const userResponse = await dataFetcher.getUser();
             const { id } = userResponse.data;
             dataFetcher.createPlaylist(id, playlistData).then(() => {
-                success("Playlist created successfully");
+                alert.success("Playlist created successfully");
                 setOpen(false);
                 setReload(true);
             });

@@ -1,10 +1,5 @@
-import React, {
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { useQuery } from "react-query";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -18,40 +13,18 @@ import Header from "../../components/shared/Header";
 import BackButton from "../../components/shared/BackButton";
 
 const PlaylistRecommendations = ({ id }) => {
-    const [trackItems, setTrackItems] = useState([]);
-    const [playlist, setPlaylist] = useState(null);
-    const shouldFetch = useRef(true);
     const dataFetcher = useContext(DataContext);
-    const router = useRouter();
-
-    useEffect(() => {
-        if (shouldFetch.current && router.isReady) {
-            shouldFetch.current = false;
-            dataFetcher.getPlaylist(id).then((playlistResponse) => {
-                setPlaylist(playlistResponse);
-            }).catch(() => {});
-        }
-    }, [id, dataFetcher, router]);
-
-    useEffect(() => {
-        if (playlist && trackItems.length === 0) {
-            const playlistTrackIds = playlist.tracks.items.map((item) => item.track.id);
-            dataFetcher.getRecommendationsForTracks(playlistTrackIds).then((response) => {
-                const { tracks } = response;
-                setTrackItems(tracks);
-            });
-        }
-    }, [playlist, trackItems.length, dataFetcher]);
+    const { data, refetch } = useQuery(`recommendations-${id}`, () => dataFetcher.getRecommendationsForPlaylist(id));
 
     return (
         <BaseLayout>
             <BackButton />
-            {playlist && <Header title={`Recommendations Based On ${playlist?.name}`} />}
+            {data.playlist && <Header title={`Recommendations Based On ${data.playlist.name}`} />}
             <Box sx={{ marginBottom: "40px", textAlign: "center" }}>
-                <Button color="success" onClick={() => setTrackItems([])}>Load New</Button>
+                <Button color="success" onClick={refetch}>Load New</Button>
             </Box>
             <Stack gap={3}>
-                {trackItems.map((item) => (
+                {data.recommendations.tracks.map((item) => (
                     <TrackItem key={item.id} size={SIZE_SMALL} track={item} />
                 ))}
             </Stack>
@@ -63,11 +36,9 @@ PlaylistRecommendations.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query: { id } }) {
     return {
-        props: {
-            id: query.id,
-        },
+        props: { id },
     };
 }
 

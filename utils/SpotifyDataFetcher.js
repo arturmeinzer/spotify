@@ -249,7 +249,7 @@ class SpotifyDataFetcher {
 
     getUserInfo = async () => {
         await this.getAccessToken();
-        return axios.all([
+        return Promise.all([
             this.getUser(),
             this.getTopArtists(TIME_RANGE_LONG_TERM, 10),
             this.getTopTracks(TIME_RANGE_LONG_TERM, 10),
@@ -268,7 +268,7 @@ class SpotifyDataFetcher {
 
     getTrackInfo = async (trackId) => {
         await this.getAccessToken();
-        return axios.all([
+        return Promise.all([
             this.getTrack(trackId),
             this.getTrackAudioAnalysis(trackId),
         ]).then(
@@ -278,6 +278,17 @@ class SpotifyDataFetcher {
             })),
         );
     };
+
+    getRecommendationsForPlaylist = async (playlistId) => {
+        await this.getAccessToken();
+        return this.getPlaylist(playlistId).then((playlist) => {
+            const playlistTrackIds = playlist.tracks.items.map((item) => item.track.id);
+            return this.getRecommendationsForTracks(playlistTrackIds).then((recommendations) => ({
+                playlist,
+                recommendations,
+            }));
+        });
+    }
 }
 
 export default SpotifyDataFetcher;

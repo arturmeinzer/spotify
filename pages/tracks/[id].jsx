@@ -59,11 +59,9 @@ TrackDetails.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query: { id } }) {
     return {
-        props: {
-            id: query.id,
-        },
+        props: { id },
     };
 }
 
