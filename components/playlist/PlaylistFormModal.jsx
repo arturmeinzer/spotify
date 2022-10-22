@@ -4,15 +4,15 @@ import IconButton from "@mui/material/IconButton";
 import SlidingModal from "../shared/SlidingModal";
 import PlaylistForm from "./PlaylistForm";
 import DataContext from "../../context/DataContext";
-import AlertContext from "../../context/AlertContext";
 import { PROP_TYPES_PLAYLIST } from "../../constants/propTypes";
 import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
+import useAlertStore from "../../store/useAlertStore";
 
 const PlaylistFormModal = ({ playlist }) => {
     const [open, setOpen] = useState(false);
     const dataFetcher = useContext(DataContext);
-    const alert = useContext(AlertContext);
     const setReload = useContext(PlaylistOverviewContext);
+    const success = useAlertStore((state) => state.success);
 
     const handleUpdate = (data) => {
         const playlistData = { name: data.name };
@@ -20,11 +20,9 @@ const PlaylistFormModal = ({ playlist }) => {
             playlistData.description = data.description;
         }
         dataFetcher.updatePlaylist(playlist.id, playlistData).then(() => {
-            alert.success("Playlist updated successfully");
+            success("Playlist updated successfully");
             setOpen(false);
             setReload(true);
-        }).catch((err) => {
-            alert.error(err.message);
         });
     };
 

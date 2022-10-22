@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import AlertContext from "../context/AlertContext";
 import DataContext from "../context/DataContext";
+import useAlertStore from "../store/useAlertStore";
 
 const useMoveItemInPlaylist = () => {
-    const alert = useContext(AlertContext);
+    const alert = useAlertStore((state) => ({ error: state.error, success: state.success }));
     const dataFetcher = useContext(DataContext);
 
     const moveItem = (playlistId, snapshotId, position, insertBefore, callback) => {

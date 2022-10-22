@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import DataContext from "../context/DataContext";
-import AlertContext from "../context/AlertContext";
+import useAlertStore from "../store/useAlertStore";
 
 const useAddToPlaylist = () => {
     const dataFetcher = useContext(DataContext);
-    const alert = useContext(AlertContext);
+    const alert = useAlertStore((state) => ({ error: state.error, success: state.success }));
 
     const addToPlaylist = (playlistId, uri, callback) => {
         dataFetcher.getPlaylist(playlistId).then((playlistResponse) => {

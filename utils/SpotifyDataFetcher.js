@@ -81,6 +81,8 @@ class SpotifyDataFetcher {
         try {
             return await this.spotifyApi.get(url, { headers, ...options });
         } catch (e) {
+            console.log(e.message);
+            console.log("error function", this.alert.error);
             this.alert.error(e.message);
             return {};
         }

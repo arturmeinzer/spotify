@@ -3,14 +3,14 @@ import Stack from "@mui/material/Stack";
 import { getHeight, getWidth } from "../../utils/ImageHelper";
 import { SIZE_BIG } from "../../constants/imageSizes";
 import SlidingModal from "../shared/SlidingModal";
-import AlertContext from "../../context/AlertContext";
 import DataContext from "../../context/DataContext";
 import PlaylistForm from "./PlaylistForm";
 import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
+import useAlertStore from "../../store/useAlertStore";
 
 const AddPlaylist = () => {
     const [open, setOpen] = useState(false);
-    const alert = useContext(AlertContext);
+    const success = useAlertStore((state) => state.success);
     const dataFetcher = useContext(DataContext);
     const setReload = useContext(PlaylistOverviewContext);
 
@@ -24,7 +24,7 @@ const AddPlaylist = () => {
             const userResponse = await dataFetcher.getUser();
             const { id } = userResponse.data;
             dataFetcher.createPlaylist(id, playlistData).then(() => {
-                alert.success("Playlist created successfully");
+                success("Playlist created successfully");
                 setOpen(false);
                 setReload(true);
             });
