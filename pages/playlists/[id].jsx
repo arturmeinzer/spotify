@@ -19,10 +19,11 @@ import TrackActionsContext from "../../context/TrackActionsContext";
 import useDeleteFromPlaylist from "../../hooks/useDeleteFromPlaylist";
 import useMoveItemInPlaylist from "../../hooks/useMoveItemInPlaylist";
 import BackButton from "../../components/shared/BackButton";
+import { motion } from "framer-motion";
 
 const PlaylistDetail = ({ id }) => {
     const dataFetcher = useContext(DataContext);
-    const [deleteFromPlaylist] = useDeleteFromPlaylist();
+    const deleteFromPlaylist = useDeleteFromPlaylist();
     const { moveUp, moveDown } = useMoveItemInPlaylist();
     const { data, refetch } = useQuery(`playlist-${id}`, () => dataFetcher.getPlaylist(id));
 
@@ -73,7 +74,13 @@ const PlaylistDetail = ({ id }) => {
                         </AppLink>
                     )}
                 </Stack>
-                <Stack gap={3} flexGrow={1}>
+                <Stack
+                    gap={3}
+                    flexGrow={1}
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                >
                     {data && data.tracks.items.map((item, position) => (
                         <TrackActionsContext.Provider
                             key={item.track.id}

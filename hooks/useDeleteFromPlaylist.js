@@ -15,7 +15,7 @@ const useDeleteFromPlaylist = () => {
         });
     };
 
-    return [deleteFromPlaylist];
+    return deleteFromPlaylist;
 };
 
 export default useDeleteFromPlaylist;

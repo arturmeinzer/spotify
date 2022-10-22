@@ -4,6 +4,7 @@ import React, {
 } from "react";
 import Stack from "@mui/material/Stack";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
 import BaseLayout from "../../layouts/BaseLayout";
 import Header from "../../components/shared/Header";
 import TrackItem from "../../components/track/TrackItem";
@@ -27,7 +28,12 @@ const Tracks = () => {
             <Header title="Top Tracks">
                 <TimeRangeToggle onChange={handleToggle} timeRange={timeRange.current} />
             </Header>
-            <Stack gap={3}>
+            <Stack
+                gap={3}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+            >
                 {data?.items?.map((item) => (
                     <TrackItem key={item.id} track={item} />
                 ))}

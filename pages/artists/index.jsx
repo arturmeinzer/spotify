@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from "react";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
 import Box from "@mui/material/Box";
 import BaseLayout from "../../layouts/BaseLayout";
 import Artist from "../../components/artist/Artist";
@@ -29,6 +30,9 @@ export const Artists = () => {
                 gridTemplateColumns="repeat(auto-fit, 160px)"
                 gap={3}
                 sx={{ justifyContent: { xs: "space-around", md: "space-between" } }}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
             >
                 {data?.items?.map((item) => <Artist key={item.id} artist={item} />)}
             </Box>

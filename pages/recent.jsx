@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
 import Stack from "@mui/material/Stack";
+import { motion } from "framer-motion";
 import BaseLayout from "../layouts/BaseLayout";
 import Header from "../components/shared/Header";
 import TrackItem from "../components/track/TrackItem";
@@ -14,7 +15,12 @@ const Recent = () => {
     return (
         <BaseLayout>
             <Header title="Recently Played Tracks" />
-            <Stack gap={3}>
+            <Stack
+                gap={3}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+            >
                 {data?.items?.map((item) => (
                     <TrackItem key={item.played_at} track={item.track} />
                 ))}

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
 import Stack from "@mui/material/Stack";
 import BaseLayout from "../../layouts/BaseLayout";
 import Header from "../../components/shared/Header";
@@ -13,18 +14,6 @@ const Playlists = () => {
     const dataFetcher = useContext(DataContext);
     const { data, refetch } = useQuery("playlists", dataFetcher.getPlaylists);
 
-    // useEffect(() => {
-    //     if (shouldFetch.current || reload) {
-    //         shouldFetch.current = false;
-    //         if (reload) setPlaylistItems([]);
-    //         dataFetcher.getPlaylists().then((response) => {
-    //             const { items } = response.data;
-    //             setPlaylistItems(items);
-    //             setReload(false);
-    //         }).catch(() => {});
-    //     }
-    // }, [dataFetcher, reload]);
-
     return (
         <PlaylistOverviewContext.Provider value={refetch}>
             <BaseLayout>
@@ -34,6 +23,9 @@ const Playlists = () => {
                     gap={3}
                     flexWrap="wrap"
                     sx={{ justifyContent: { xs: "space-around", md: "start" } }}
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                 >
                     {data.items.map((item) => (
                         <Playlist key={item.id} playlist={item} />

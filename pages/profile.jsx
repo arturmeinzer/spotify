@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import { FaUserCircle } from "react-icons/fa";
 import SpotifyDataFetcher from "../utils/SpotifyDataFetcher";
@@ -32,7 +33,13 @@ const Profile = () => {
                 <Button onClick={onLogout} color="warning">Logout</Button>
             </Stack>
 
-            <Stack gap="20px" sx={{ flexDirection: { xs: "column", md: "row" } }}>
+            <Stack
+                gap="20px"
+                sx={{ flexDirection: { xs: "column", md: "row" } }}
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+            >
                 <Stack gap={3} flex="50%">
                     <ProfileSubHeader href="/artists" title="Top Artists of All Time" />
                     {profileData.topArtists.items.map(
