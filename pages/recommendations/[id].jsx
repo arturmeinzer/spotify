@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { useQuery } from "react-query";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
@@ -11,17 +10,23 @@ import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Header from "../../components/shared/Header";
 import BackButton from "../../components/shared/BackButton";
+import LoadingButton from "../../components/shared/LoadingButton";
 
 const PlaylistRecommendations = ({ id }) => {
     const dataFetcher = useContext(DataFetcherContext);
-    const { data, refetch } = useQuery(`recommendations-${id}`, () => dataFetcher.getRecommendationsForPlaylist(id));
+    const { data, refetch, isFetching } = useQuery(`recommendations-${id}`, () => dataFetcher.getRecommendationsForPlaylist(id));
 
     return (
         <BaseLayout>
             <BackButton />
             {data.playlist && <Header title={`Recommendations Based On ${data.playlist.name}`} />}
             <Box sx={{ marginBottom: "40px", textAlign: "center" }}>
-                <Button color="success" onClick={refetch}>Load New</Button>
+                <LoadingButton
+                    loading={isFetching}
+                    onClick={refetch}
+                >
+                    Load New
+                </LoadingButton>
             </Box>
             <Stack gap={3}>
                 {data.recommendations.tracks.map((item) => (
