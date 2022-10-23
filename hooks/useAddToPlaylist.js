@@ -1,12 +1,28 @@
 import { useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import DataContext from "../context/DataContext";
 import useAlertStore from "../store/useAlertStore";
 
 const useAddToPlaylist = () => {
     const dataFetcher = useContext(DataContext);
+    const queryClient = useQueryClient();
     const alert = useAlertStore((state) => ({ error: state.error, success: state.success }));
 
-    const addToPlaylist = (playlistId, uri, callback) => {
+    const { mutate: addToPlaylist } = useMutation(
+        ({ uri, playlistId }) => dataFetcher.addTrackToPlaylist(uri, playlistId),
+        {
+            onSuccess: async (data, { playlistId }) => {
+                alert.success("Successfully added to Playlist");
+                await queryClient.invalidateQueries("playlists");
+                await queryClient.invalidateQueries(`playlist-${playlistId}`);
+            },
+            onError: (err) => {
+                alert.error(err.message);
+            },
+        },
+    );
+
+    return (playlistId, uri) => {
         dataFetcher.getPlaylist(playlistId).then((playlistResponse) => {
             const { tracks } = playlistResponse;
             let alreadyInPlaylist = false;
@@ -19,20 +35,12 @@ const useAddToPlaylist = () => {
 
             if (alreadyInPlaylist) {
                 alert.error("Track is already in selected Playlist");
-            } else {
-                dataFetcher.addTrackToPlaylist(uri, playlistId).then(() => {
-                    alert.success("Successfully added to Playlist");
-                    if (typeof callback === "function") {
-                        callback();
-                    }
-                }).catch((err) => {
-                    alert.error(err.message);
-                });
+                return;
             }
+
+            addToPlaylist({ uri, playlistId });
         });
     };
-
-    return [addToPlaylist];
 };
 
 export default useAddToPlaylist;

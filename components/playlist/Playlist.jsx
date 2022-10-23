@@ -7,7 +7,7 @@ import { SIZE_BIG } from "../../constants/imageSizes";
 import { PROP_TYPES_PLAYLIST } from "../../constants/propTypes";
 import AppLink from "../shared/AppLink";
 import SearchModal from "./SearchModal";
-import PlaylistFormModal from "./PlaylistFormModal";
+import PlaylistEditModal from "./PlaylistEditModal";
 
 const Playlist = ({ playlist, size }) => (
     <AppLink href="/playlists/[id]" as={`/playlists/${playlist.id}`}>
@@ -25,7 +25,7 @@ const Playlist = ({ playlist, size }) => (
                 onClick={(e) => e.preventDefault()}
             >
                 <SearchModal playlistId={playlist.id} />
-                <PlaylistFormModal playlist={playlist} />
+                <PlaylistEditModal playlist={playlist} />
             </Stack>
         </Stack>
     </AppLink>

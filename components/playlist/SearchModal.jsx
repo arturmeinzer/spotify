@@ -14,16 +14,14 @@ import TrackItem from "../track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import TrackActionsContext from "../../context/TrackActionsContext";
 import useAddToPlaylist from "../../hooks/useAddToPlaylist";
-import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
 
 const SearchModal = ({ playlistId }) => {
     const [open, setOpen] = useState(false);
     const [trackItems, setTrackItems] = useState([]);
     const dataFetcher = useContext(DataContext);
-    const [addToPlaylist] = useAddToPlaylist();
-    const setReloadOverview = useContext(PlaylistOverviewContext);
+    const addToPlaylist = useAddToPlaylist();
 
-    const { register, watch } = useForm({
+    const { register, watch, setValue } = useForm({
         defaultValues: {
             searchTerm: "",
         },
@@ -51,7 +49,7 @@ const SearchModal = ({ playlistId }) => {
 
     const handleClose = () => {
         setOpen(false);
-        setReloadOverview(true);
+        setValue("searchTerm", "");
     };
 
     const renderActions = (uri) => [

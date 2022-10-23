@@ -25,16 +25,14 @@ const PlaylistDetail = ({ id }) => {
     const dataFetcher = useContext(DataContext);
     const deleteFromPlaylist = useDeleteFromPlaylist();
     const { moveUp, moveDown } = useMoveItemInPlaylist();
-    const { data, refetch } = useQuery(`playlist-${id}`, () => dataFetcher.getPlaylist(id));
+    const { data } = useQuery(`playlist-${id}`, () => dataFetcher.getPlaylist(id));
 
     const menuItems = (uri, position) => ([
         ...(position > 0 ? [
             <IconButton
                 key="moveUp"
                 size="small"
-                onClick={() => (
-                    moveUp(data.id, data.snapshot_id, position, () => refetch())
-                )}
+                onClick={() => moveUp(data.id, data.snapshot_id, position)}
             >
                 <BsArrowUpCircle />
             </IconButton>,
@@ -43,9 +41,7 @@ const PlaylistDetail = ({ id }) => {
             <IconButton
                 key="moveDown"
                 size="small"
-                onClick={() => (
-                    moveDown(data.id, data.snapshot_id, position, () => refetch())
-                )}
+                onClick={() => moveDown(data.id, data.snapshot_id, position)}
             >
                 <BsArrowDownCircle />
             </IconButton>,
@@ -54,9 +50,7 @@ const PlaylistDetail = ({ id }) => {
             aria-label="delete from playlist"
             key="delete"
             size="small"
-            onClick={() => {
-                deleteFromPlaylist(uri, data.id, () => refetch());
-            }}
+            onClick={() => deleteFromPlaylist(uri, data.id)}
         >
             <MdDelete />
         </IconButton>,

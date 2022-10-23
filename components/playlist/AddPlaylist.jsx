@@ -1,36 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import { getHeight, getWidth } from "../../utils/ImageHelper";
 import { SIZE_BIG } from "../../constants/imageSizes";
 import SlidingModal from "../shared/SlidingModal";
-import DataContext from "../../context/DataContext";
 import PlaylistForm from "./PlaylistForm";
-import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
-import useAlertStore from "../../store/useAlertStore";
+import useCreatePlaylist from "../../hooks/useCreatePlaylist";
 
 const AddPlaylist = () => {
     const [open, setOpen] = useState(false);
-    const alert = useAlertStore((state) => ({ success: state.success, error: state.error }));
-    const dataFetcher = useContext(DataContext);
-    const setReload = useContext(PlaylistOverviewContext);
+    const createPlaylist = useCreatePlaylist();
 
     const handleCreate = async (data) => {
-        try {
-            const playlistData = { name: data.name };
-            if (data.description.length > 0) {
-                playlistData.description = data.description;
-            }
-
-            const userResponse = await dataFetcher.getUser();
-            const { id } = userResponse.data;
-            dataFetcher.createPlaylist(id, playlistData).then(() => {
-                alert.success("Playlist created successfully");
-                setOpen(false);
-                setReload(true);
-            });
-        } catch (err) {
-            alert.error(err.message);
+        const playlistData = { name: data.name };
+        if (data.description.length > 0) {
+            playlistData.description = data.description;
         }
+
+        await createPlaylist(playlistData, () => {
+            setOpen(false);
+        });
     };
 
     return (

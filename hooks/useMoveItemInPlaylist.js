@@ -1,28 +1,49 @@
 import { useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import DataContext from "../context/DataContext";
 import useAlertStore from "../store/useAlertStore";
 
 const useMoveItemInPlaylist = () => {
     const alert = useAlertStore((state) => ({ error: state.error, success: state.success }));
     const dataFetcher = useContext(DataContext);
+    const queryClient = useQueryClient();
 
-    const moveItem = (playlistId, snapshotId, position, insertBefore, callback) => {
-        dataFetcher.changeTrackOrderInPlaylist(playlistId, snapshotId, position, insertBefore)
-            .then((response) => {
-                const { snapshot_id: newSnapshotId } = response.data;
-                alert.success("Moved item in Playlist");
-                callback(newSnapshotId);
-            }).catch((err) => {
+    const { mutate: moveItem } = useMutation(
+        ({
+            playlistId,
+            snapshotId,
+            position,
+            insertBefore,
+        }) => (
+            dataFetcher.changeTrackOrderInPlaylist(playlistId, snapshotId, position, insertBefore)
+        ),
+        {
+            onSuccess: async (data, { playlistId }) => {
+                alert.success("Successfully moved item in Playlist");
+                await queryClient.invalidateQueries(`playlist-${playlistId}`);
+            },
+            onError: (err) => {
                 alert.error(err.message);
-            });
-    };
-
-    const moveUp = (playlistId, snapshotId, position, callback) => (
-        moveItem(playlistId, snapshotId, position, position - 1, callback)
+            },
+        },
     );
 
-    const moveDown = (playlistId, snapshotId, position, callback) => (
-        moveItem(playlistId, snapshotId, position, position + 2, callback)
+    const moveUp = (playlistId, snapshotId, position) => (
+        moveItem({
+            playlistId,
+            snapshotId,
+            position,
+            insertBefore: position - 1,
+        })
+    );
+
+    const moveDown = (playlistId, snapshotId, position) => (
+        moveItem({
+            playlistId,
+            snapshotId,
+            position,
+            insertBefore: position + 2,
+        })
     );
 
     return { moveUp, moveDown };

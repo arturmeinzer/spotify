@@ -3,16 +3,16 @@ import { useMutation, useQueryClient } from "react-query";
 import DataContext from "../context/DataContext";
 import useAlertStore from "../store/useAlertStore";
 
-const useDeleteFromPlaylist = () => {
+const useEditPlaylist = () => {
     const dataFetcher = useContext(DataContext);
     const queryClient = useQueryClient();
     const alert = useAlertStore((state) => ({ error: state.error, success: state.success }));
 
-    const { mutate: deleteFromPlaylist } = useMutation(
-        ({ uri, playlistId }) => dataFetcher.removeTrackFromPlaylist(uri, playlistId),
+    const { mutate: updatePlaylist } = useMutation(
+        ({ playlistId, playlistData }) => dataFetcher.updatePlaylist(playlistId, playlistData),
         {
             onSuccess: async (data, { playlistId }) => {
-                alert.success("Track deleted from Playlist");
+                alert.success("Playlist updated successfully");
                 await queryClient.invalidateQueries("playlists");
                 await queryClient.invalidateQueries(`playlist-${playlistId}`);
             },
@@ -22,9 +22,18 @@ const useDeleteFromPlaylist = () => {
         },
     );
 
-    return (uri, playlistId) => {
-        deleteFromPlaylist({ uri, playlistId });
+    return (playlistId, playlistData, callback) => {
+        updatePlaylist(
+            { playlistId, playlistData },
+            {
+                onSuccess: () => {
+                    if (typeof callback === "function") {
+                        callback();
+                    }
+                },
+            },
+        );
     };
 };
 
-export default useDeleteFromPlaylist;
+export default useEditPlaylist;

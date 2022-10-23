@@ -37,12 +37,14 @@ const theme = createTheme({
     },
 });
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             retry: false,
             refetchOnWindowFocus: false,
+            refetchOnMount: true,
             suspense: true,
+            staleTime: 0,
         },
     },
 });

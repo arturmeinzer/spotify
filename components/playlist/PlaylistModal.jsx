@@ -17,8 +17,13 @@ import useAddToPlaylist from "../../hooks/useAddToPlaylist";
 const PlaylistModal = ({ uri, button }) => {
     const [open, setOpen] = useState(false);
     const dataFetcher = useContext(DataContext);
-    const [addToPlaylist] = useAddToPlaylist();
+    const addToPlaylist = useAddToPlaylist();
     const { data } = useQuery("playlists", dataFetcher.getPlaylists);
+
+    const handleClick = (playlistId) => {
+        addToPlaylist(playlistId, uri);
+        setOpen(false);
+    };
 
     return (
         <>
@@ -28,7 +33,7 @@ const PlaylistModal = ({ uri, button }) => {
                     {data.items.map((item) => (
                         <Anchor
                             key={item.id}
-                            onClick={() => addToPlaylist(item.id, uri, () => setOpen(false))}
+                            onClick={() => handleClick(item.id)}
                         >
                             <Stack gap={1} textAlign="center">
                                 <Box>

@@ -1,28 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import IconButton from "@mui/material/IconButton";
 import SlidingModal from "../shared/SlidingModal";
 import PlaylistForm from "./PlaylistForm";
-import DataContext from "../../context/DataContext";
 import { PROP_TYPES_PLAYLIST } from "../../constants/propTypes";
-import PlaylistOverviewContext from "../../context/PlaylistOverviewContext";
-import useAlertStore from "../../store/useAlertStore";
+import useEditPlaylist from "../../hooks/useEditPlaylist";
 
-const PlaylistFormModal = ({ playlist }) => {
+const PlaylistEditModal = ({ playlist }) => {
     const [open, setOpen] = useState(false);
-    const dataFetcher = useContext(DataContext);
-    const setReload = useContext(PlaylistOverviewContext);
-    const success = useAlertStore((state) => state.success);
+    const editPlaylist = useEditPlaylist();
 
     const handleUpdate = (data) => {
         const playlistData = { name: data.name };
         if (data.description.length > 0) {
             playlistData.description = data.description;
         }
-        dataFetcher.updatePlaylist(playlist.id, playlistData).then(() => {
-            success("Playlist updated successfully");
+
+        editPlaylist(playlist.id, playlistData, () => {
             setOpen(false);
-            setReload(true);
         });
     };
 
@@ -48,8 +43,8 @@ const PlaylistFormModal = ({ playlist }) => {
     );
 };
 
-PlaylistFormModal.propTypes = {
+PlaylistEditModal.propTypes = {
     playlist: PROP_TYPES_PLAYLIST.isRequired,
 };
 
-export default PlaylistFormModal;
+export default PlaylistEditModal;
