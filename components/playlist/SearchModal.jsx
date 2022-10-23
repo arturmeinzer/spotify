@@ -9,16 +9,18 @@ import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import SlidingModal from "../shared/SlidingModal";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 import TrackItem from "../track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import TrackActionsContext from "../../context/TrackActionsContext";
 import useAddToPlaylist from "../../hooks/useAddToPlaylist";
 
+const SEARCH_TERM_FIELD = "searchTerm";
+
 const SearchModal = ({ playlistId }) => {
     const [open, setOpen] = useState(false);
     const [trackItems, setTrackItems] = useState([]);
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const addToPlaylist = useAddToPlaylist();
 
     const { register, watch, setValue } = useForm({
@@ -27,7 +29,7 @@ const SearchModal = ({ playlistId }) => {
         },
     });
 
-    const watchSearchTerm = watch("searchTerm");
+    const watchSearchTerm = watch(SEARCH_TERM_FIELD);
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -49,17 +51,14 @@ const SearchModal = ({ playlistId }) => {
 
     const handleClose = () => {
         setOpen(false);
-        setValue("searchTerm", "");
+        setValue(SEARCH_TERM_FIELD, "");
     };
 
     const renderActions = (uri) => [
         <IconButton
             key="AddToCurrentPlaylist"
             size="small"
-            onClick={() => addToPlaylist(
-                playlistId,
-                uri,
-            )}
+            onClick={() => addToPlaylist(playlistId, uri)}
         >
             <AiOutlinePlus />
         </IconButton>,
@@ -77,7 +76,7 @@ const SearchModal = ({ playlistId }) => {
                             <InputLabel>Search</InputLabel>
                             <OutlinedInput
                                 label="Search"
-                                {...register("searchTerm")}
+                                {...register(SEARCH_TERM_FIELD)}
                                 autoFocus
                             />
                         </FormControl>

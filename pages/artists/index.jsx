@@ -8,16 +8,16 @@ import Header from "../../components/shared/Header";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
 import withAuth from "../../hoc/withAuth";
 import TimeRangeToggle from "../../components/shared/TimeRangeToggle";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 
 export const Artists = () => {
     const timeRange = useRef(TIME_RANGE_LONG_TERM);
-    const dataFetcher = useContext(DataContext);
-    const { data, refetch } = useQuery(["artists"], () => dataFetcher.getTopArtists(timeRange.current));
+    const dataFetcher = useContext(DataFetcherContext);
+    const { data, refetch } = useQuery("artists", () => dataFetcher.getTopArtists(timeRange.current));
 
-    const handleToggle = (newTimeRange) => {
+    const handleToggle = async (newTimeRange) => {
         timeRange.current = newTimeRange;
-        refetch();
+        await refetch();
     };
 
     return (

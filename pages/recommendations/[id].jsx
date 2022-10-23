@@ -6,14 +6,14 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import withAuth from "../../hoc/withAuth";
 import BaseLayout from "../../layouts/BaseLayout";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Header from "../../components/shared/Header";
 import BackButton from "../../components/shared/BackButton";
 
 const PlaylistRecommendations = ({ id }) => {
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const { data, refetch } = useQuery(`recommendations-${id}`, () => dataFetcher.getRecommendationsForPlaylist(id));
 
     return (

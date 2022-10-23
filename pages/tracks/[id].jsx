@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import PropTypes from "prop-types";
 import BaseLayout from "../../layouts/BaseLayout";
 import withAuth from "../../hoc/withAuth";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 import Image from "../../components/shared/Image";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import { releaseDateToYear } from "../../utils/TimeConverter";
@@ -16,7 +16,7 @@ import PlaylistModal from "../../components/playlist/PlaylistModal";
 import BackButton from "../../components/shared/BackButton";
 
 const TrackDetails = ({ id }) => {
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const { data } = useQuery(`track-${id}`, () => dataFetcher.getTrackInfo(id));
 
     return (

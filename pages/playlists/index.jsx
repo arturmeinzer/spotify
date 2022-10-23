@@ -6,11 +6,11 @@ import BaseLayout from "../../layouts/BaseLayout";
 import Header from "../../components/shared/Header";
 import withAuth from "../../hoc/withAuth";
 import Playlist from "../../components/playlist/Playlist";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 import AddPlaylist from "../../components/playlist/AddPlaylist";
 
 const Playlists = () => {
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const { data } = useQuery("playlists", dataFetcher.getPlaylists);
 
     return (

@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import DataContext from "../context/DataContext";
+import DataFetcherContext from "../context/DataFetcherContext";
 import useAlertStore from "../store/useAlertStore";
 
 const useEditPlaylist = () => {
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const queryClient = useQueryClient();
     const alert = useAlertStore((state) => ({ error: state.error, success: state.success }));
 

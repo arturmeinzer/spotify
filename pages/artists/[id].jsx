@@ -11,11 +11,11 @@ import { SIZE_BIG } from "../../constants/imageSizes";
 import Image from "../../components/shared/Image";
 import PropertyHeader from "../../components/UI/PropertyHeader";
 import PropertyContent from "../../components/UI/PropertyContent";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 import BackButton from "../../components/shared/BackButton";
 
 const ArtistDetail = ({ id }) => {
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const { data: artist } = useQuery(`artist-${id}`, () => dataFetcher.getArtist(id));
 
     return (

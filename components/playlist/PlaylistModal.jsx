@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import PropTypes from "prop-types";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import Image from "../shared/Image";
 import Anchor from "../UI/Anchor";
@@ -16,7 +16,7 @@ import useAddToPlaylist from "../../hooks/useAddToPlaylist";
 
 const PlaylistModal = ({ uri, button }) => {
     const [open, setOpen] = useState(false);
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const addToPlaylist = useAddToPlaylist();
     const { data } = useQuery("playlists", dataFetcher.getPlaylists);
 

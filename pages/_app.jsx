@@ -1,58 +1,31 @@
 import "../styles/globals.css";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { QueryClient, QueryClientProvider } from "react-query";
 import PropTypes from "prop-types";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Head from "next/head";
-import { grey } from "@mui/material/colors";
-import Alert from "../components/shared/Alert";
-import { DataProvider } from "../context/DataContext";
+import { DataFetcherProvider } from "../context/DataFetcherContext";
+import ThemeContextProvider from "../context/ThemeContextProvider";
 
-const theme = createTheme({
-    components: {
-        MuiButton: {
-            defaultProps: {
-                variant: "contained",
-            },
-            styleOverrides: {
-                root: {
-                    borderRadius: "50px",
-                    padding: "10px 30px",
-                    fontWeight: "bold",
-                },
-            },
-        },
-        MuiIconButton: {
-            styleOverrides: {
-                root: {
-                    border: `1px solid ${grey[700]}`,
-                },
-            },
-        },
-    },
-    palette: {
-        mode: "dark",
-    },
-});
+const DynamicAlert = dynamic(() => import("../components/shared/Alert"));
 
 export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            retry: false,
+            retry: 1,
             refetchOnWindowFocus: false,
             refetchOnMount: true,
             suspense: true,
-            staleTime: 0,
         },
     },
 });
 
 const MyApp = ({ Component, pageProps }) => (
-    <ThemeProvider theme={theme}>
+    <ThemeContextProvider>
         <QueryClientProvider client={queryClient}>
-            <DataProvider>
+            <DataFetcherProvider>
                 <Head>
                     <title>Spotify App</title>
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -65,11 +38,11 @@ const MyApp = ({ Component, pageProps }) => (
                     <meta name="theme-color" content="#ffffff" />
                 </Head>
                 <CssBaseline />
-                <Alert />
+                <DynamicAlert />
                 <Component {...pageProps} />
-            </DataProvider>
+            </DataFetcherProvider>
         </QueryClientProvider>
-    </ThemeProvider>
+    </ThemeContextProvider>
 );
 
 MyApp.propTypes = {

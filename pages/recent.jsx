@@ -6,10 +6,10 @@ import BaseLayout from "../layouts/BaseLayout";
 import Header from "../components/shared/Header";
 import TrackItem from "../components/track/TrackItem";
 import withAuth from "../hoc/withAuth";
-import DataContext from "../context/DataContext";
+import DataFetcherContext from "../context/DataFetcherContext";
 
 const Recent = () => {
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const { data } = useQuery("recentlyPlayed", dataFetcher.getRecentlyPlayed);
 
     return (

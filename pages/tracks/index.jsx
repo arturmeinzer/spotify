@@ -11,11 +11,11 @@ import TrackItem from "../../components/track/TrackItem";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
 import TimeRangeToggle from "../../components/shared/TimeRangeToggle";
 import withAuth from "../../hoc/withAuth";
-import DataContext from "../../context/DataContext";
+import DataFetcherContext from "../../context/DataFetcherContext";
 
 const Tracks = () => {
     const timeRange = useRef(TIME_RANGE_LONG_TERM);
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const { data, refetch } = useQuery(["tracks"], () => dataFetcher.getTopTracks(timeRange.current));
 
     const handleToggle = (newTimeRange) => {

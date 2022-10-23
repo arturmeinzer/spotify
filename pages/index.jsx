@@ -4,11 +4,11 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import CenterContainer from "../components/UI/CenterContainer";
 import Loader from "../components/shared/Loader";
-import DataContext from "../context/DataContext";
+import DataFetcherContext from "../context/DataFetcherContext";
 
 const Home = () => {
     const [isAuth, setIsAuth] = useState(false);
-    const dataFetcher = useContext(DataContext);
+    const dataFetcher = useContext(DataFetcherContext);
     const router = useRouter();
     const { query } = router;
 

@@ -14,15 +14,16 @@ const AxiosSpotifyInstance = setupCache(
         interpretHeader: false,
     },
 );
+
 const AxiosLocalInstance = axios.create();
 
 const spotifyDataFetcher = new SpotifyDataFetcher(
     AxiosSpotifyInstance,
     AxiosLocalInstance,
 );
-const DataContext = createContext(null);
+const DataFetcherContext = createContext(null);
 
-const DataProvider = ({ children }) => {
+const DataFetcherProvider = ({ children }) => {
     const alert = useAlertStore((state) => ({
         success: state.success,
         error: state.error,
@@ -31,15 +32,15 @@ const DataProvider = ({ children }) => {
     spotifyDataFetcher.setAlert(alert);
 
     return (
-        <DataContext.Provider value={spotifyDataFetcher}>
+        <DataFetcherContext.Provider value={spotifyDataFetcher}>
             {children}
-        </DataContext.Provider>
+        </DataFetcherContext.Provider>
     );
 };
 
-DataProvider.propTypes = {
+DataFetcherProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-export { DataProvider };
-export default DataContext;
+export { DataFetcherProvider };
+export default DataFetcherContext;
