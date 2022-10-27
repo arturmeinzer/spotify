@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import Stack from "@mui/material/Stack";
 import { motion } from "framer-motion";
@@ -6,10 +6,10 @@ import BaseLayout from "../layouts/BaseLayout";
 import Header from "../components/shared/Header";
 import TrackItem from "../components/track/TrackItem";
 import withAuth from "../hoc/withAuth";
-import DataFetcherContext from "../context/DataFetcherContext";
+import { useDataFetcher } from "../context/DataFetcherContext";
 
 const Recent = () => {
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const { data } = useQuery("recentlyPlayed", dataFetcher.getRecentlyPlayed);
 
     return (

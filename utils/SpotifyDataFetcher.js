@@ -18,12 +18,8 @@ class SpotifyDataFetcher {
         this.alert = alert;
     }
 
-    setTokenTimestamp = () => {
-        window.localStorage.setItem(SPOTIFY_TOKEN_TIMESTAMP, Date.now().toString());
-    };
-
     setLocalAccessToken = (accessToken) => {
-        this.setTokenTimestamp();
+        window.localStorage.setItem(SPOTIFY_TOKEN_TIMESTAMP, Date.now().toString());
         window.localStorage.setItem(SPOTIFY_ACCESS_TOKEN, accessToken);
     };
 

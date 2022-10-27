@@ -1,6 +1,4 @@
-import React, {
-    useContext,
-} from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
@@ -10,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import { MdDelete } from "react-icons/md";
 import { BsArrowDownCircle, BsArrowUpCircle } from "react-icons/bs";
 import BaseLayout from "../../layouts/BaseLayout";
-import DataFetcherContext from "../../context/DataFetcherContext";
+import { useDataFetcher } from "../../context/DataFetcherContext";
 import Playlist from "../../components/playlist/Playlist";
 import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
@@ -22,7 +20,7 @@ import useMoveItemInPlaylist from "../../hooks/useMoveItemInPlaylist";
 import BackButton from "../../components/shared/BackButton";
 
 const PlaylistDetail = ({ id }) => {
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const deleteFromPlaylist = useDeleteFromPlaylist();
     const { moveUp, moveDown } = useMoveItemInPlaylist();
     const { data } = useQuery(`playlist-${id}`, () => dataFetcher.getPlaylist(id));

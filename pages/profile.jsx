@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
@@ -12,12 +12,12 @@ import withAuth from "../hoc/withAuth";
 import Artist from "../components/artist/Artist";
 import { SIZE_SMALL } from "../constants/imageSizes";
 import TrackItem from "../components/track/TrackItem";
-import DataFetcherContext from "../context/DataFetcherContext";
+import { useDataFetcher } from "../context/DataFetcherContext";
 import ProfileSubHeader from "../components/profile/ProfileSubHeader";
 
 const Profile = () => {
     const router = useRouter();
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const { data: profileData } = useQuery("profile", dataFetcher.getUserInfo);
 
     const onLogout = () => {

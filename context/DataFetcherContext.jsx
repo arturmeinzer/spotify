@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 import { setupCache } from "axios-cache-interceptor";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -23,6 +23,11 @@ const spotifyDataFetcher = new SpotifyDataFetcher(
 );
 const DataFetcherContext = createContext(null);
 
+/**
+ * @returns {SpotifyDataFetcher}
+ */
+const useDataFetcher = () => useContext(DataFetcherContext);
+
 const DataFetcherProvider = ({ children }) => {
     const alert = useAlertStore((state) => ({
         success: state.success,
@@ -42,5 +47,5 @@ DataFetcherProvider.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-export { DataFetcherProvider };
+export { DataFetcherProvider, useDataFetcher };
 export default DataFetcherContext;

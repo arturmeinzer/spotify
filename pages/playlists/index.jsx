@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 import Stack from "@mui/material/Stack";
@@ -6,11 +6,11 @@ import BaseLayout from "../../layouts/BaseLayout";
 import Header from "../../components/shared/Header";
 import withAuth from "../../hoc/withAuth";
 import Playlist from "../../components/playlist/Playlist";
-import DataFetcherContext from "../../context/DataFetcherContext";
+import { useDataFetcher } from "../../context/DataFetcherContext";
 import AddPlaylist from "../../components/playlist/AddPlaylist";
 
 const Playlists = () => {
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const { data } = useQuery("playlists", dataFetcher.getPlaylists);
 
     return (

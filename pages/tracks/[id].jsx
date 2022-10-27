@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import PropTypes from "prop-types";
 import BaseLayout from "../../layouts/BaseLayout";
 import withAuth from "../../hoc/withAuth";
-import DataFetcherContext from "../../context/DataFetcherContext";
+import { useDataFetcher } from "../../context/DataFetcherContext";
 import Image from "../../components/shared/Image";
 import { SIZE_MEDIUM } from "../../constants/imageSizes";
 import { releaseDateToYear } from "../../utils/TimeConverter";
@@ -16,7 +16,7 @@ import PlaylistModal from "../../components/playlist/PlaylistModal";
 import BackButton from "../../components/shared/BackButton";
 
 const TrackDetails = ({ id }) => {
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const { data } = useQuery(`track-${id}`, () => dataFetcher.getTrackInfo(id));
 
     return (

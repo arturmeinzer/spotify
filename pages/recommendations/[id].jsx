@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import withAuth from "../../hoc/withAuth";
 import BaseLayout from "../../layouts/BaseLayout";
-import DataFetcherContext from "../../context/DataFetcherContext";
+import { useDataFetcher } from "../../context/DataFetcherContext";
 import TrackItem from "../../components/track/TrackItem";
 import { SIZE_SMALL } from "../../constants/imageSizes";
 import Header from "../../components/shared/Header";
@@ -13,7 +13,7 @@ import BackButton from "../../components/shared/BackButton";
 import LoadingButton from "../../components/shared/LoadingButton";
 
 const PlaylistRecommendations = ({ id }) => {
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const { data, refetch, isFetching } = useQuery(`recommendations-${id}`, () => dataFetcher.getRecommendationsForPlaylist(id));
 
     return (

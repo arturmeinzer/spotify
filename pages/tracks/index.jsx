@@ -1,7 +1,4 @@
-import React, {
-    useContext,
-    useRef,
-} from "react";
+import React, { useRef } from "react";
 import Stack from "@mui/material/Stack";
 import { useQuery } from "react-query";
 import { motion } from "framer-motion";
@@ -11,12 +8,12 @@ import TrackItem from "../../components/track/TrackItem";
 import { TIME_RANGE_LONG_TERM } from "../../constants/timeRange";
 import TimeRangeToggle from "../../components/shared/TimeRangeToggle";
 import withAuth from "../../hoc/withAuth";
-import DataFetcherContext from "../../context/DataFetcherContext";
+import { useDataFetcher } from "../../context/DataFetcherContext";
 
 const Tracks = () => {
     const timeRange = useRef(TIME_RANGE_LONG_TERM);
-    const dataFetcher = useContext(DataFetcherContext);
-    const { data, refetch } = useQuery(["tracks"], () => dataFetcher.getTopTracks(timeRange.current));
+    const dataFetcher = useDataFetcher();
+    const { data, refetch } = useQuery("tracks", () => dataFetcher.getTopTracks(timeRange.current));
 
     const handleToggle = (newTimeRange) => {
         timeRange.current = newTimeRange;

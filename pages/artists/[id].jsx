@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -11,11 +11,11 @@ import { SIZE_BIG } from "../../constants/imageSizes";
 import Image from "../../components/shared/Image";
 import PropertyHeader from "../../components/UI/PropertyHeader";
 import PropertyContent from "../../components/UI/PropertyContent";
-import DataFetcherContext from "../../context/DataFetcherContext";
+import { useDataFetcher } from "../../context/DataFetcherContext";
 import BackButton from "../../components/shared/BackButton";
 
 const ArtistDetail = ({ id }) => {
-    const dataFetcher = useContext(DataFetcherContext);
+    const dataFetcher = useDataFetcher();
     const { data: artist } = useQuery(`artist-${id}`, () => dataFetcher.getArtist(id));
 
     return (
