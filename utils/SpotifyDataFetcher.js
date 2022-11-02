@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
     SPOTIFY_ACCESS_TOKEN,
     SPOTIFY_REFRESH_TOKEN,
@@ -250,15 +249,15 @@ class SpotifyDataFetcher {
             this.getTopArtists(TIME_RANGE_LONG_TERM, 10),
             this.getTopTracks(TIME_RANGE_LONG_TERM, 10),
         ]).then(
-            axios.spread((
+            ([
                 user,
                 topArtists,
                 topTracks,
-            ) => ({
+            ]) => ({
                 user,
                 topArtists,
                 topTracks,
-            })),
+            }),
         );
     };
 
@@ -267,12 +266,10 @@ class SpotifyDataFetcher {
         return Promise.all([
             this.getTrack(trackId),
             this.getTrackAudioAnalysis(trackId),
-        ]).then(
-            axios.spread((track, audioAnalysis) => ({
-                track,
-                audioAnalysis,
-            })),
-        );
+        ]).then(([track, audioAnalysis]) => ({
+            track,
+            audioAnalysis,
+        }));
     };
 
     getRecommendationsForPlaylist = async (playlistId) => {
